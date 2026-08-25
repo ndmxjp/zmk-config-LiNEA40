@@ -1,8 +1,9 @@
 # zmk-config-LiNEA40
 
-ZMK firmware configuration for **LiNEA40** — a 41-key split keyboard on two
+ZMK firmware configuration for **LiNEA40** — a 40-key split keyboard on two
 Seeeduino XIAO BLE controllers, with an EC11 encoder on the left half and a
-PMW3610 trackball on the right.
+PMW3610 trackball on the right. Both sit in the bottom row, which is why that
+row carries five keys per half rather than six.
 
 The keymap targets **macOS with a US input source**.
 

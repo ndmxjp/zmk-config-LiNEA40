@@ -87,8 +87,8 @@
 };
 
 /* SYM held -> trackball scrolls instead of moving the pointer.
- * SYM is reachable from the left index (x3), which keeps the whole right hand
- * free for the ball. Y is inverted to match macOS natural scrolling. */
+ * SYM is reachable from the left middle finger, which keeps the whole right
+ * hand free for the ball. Y is inverted to match macOS natural scrolling. */
 
 &trackball_listener {
     scroller {
@@ -168,16 +168,15 @@
         compatible = "zmk,keymap";
 
         /*
-         * The fourth key of the bottom row is the rotary encoder -- there is no
-         * switch under it, so every layer leaves RC(3,1) as &none. The physical
-         * layout in LiNEA40.dtsi still lists a key there, which is why the
-         * position exists at all; see the note in that file.
+         * 40 keys. The bottom row carries five per half: the encoder occupies
+         * the position between SYM and Space on the left, and the trackball the
+         * one between Bspc and Enter on the right. Neither is in the layout.
          *
          *  Q      W      E      R      T                  Y      U      I      O      P
          *  A      S      D      F      G                  H      J      K      L      ;
          *  Z      X      C      V      B                  N      M      ,      .      /
-         *  Shift  Tab    SYM    (enc)  Space  Ctrl  Cmd    Bspc   (o)    Enter  Esc    Shift
-         *         (Alt)                                          (NAV)         (MAC)  (SYM)
+         *  Shift  Tab    SYM   (enc) Space Ctrl    Cmd    Bspc  (ball) Enter  Esc    Shift
+         *         (Alt)                                         (NAV)        (MAC)  (SYM)
          */
         base_layer {
             display-name = "Base";
@@ -185,7 +184,7 @@
 &kp Q      &kp W          &kp E           &kp R        &kp T                                       &kp Y      &kp U             &kp I               &kp O           &kp P
 &kp A      &kp S          &kp D           &kp F        &kp G                                       &kp H      &kp J             &kp K               &kp L           &kp SEMI
 &kp Z      &kp X          &kp C           &kp V        &kp B                                       &kp N      &kp M             &kp COMMA           &kp DOT         &kp SLASH
-&kp LSHFT  &mt LALT TAB   &mo L_SYM       &none        &kp SPACE   &kp LCTRL     &kp LGUI  &lt L_NAV BSPC                       &lt L_MAC ENTER     &lt L_SYM ESC   &kp RSHFT
+&kp LSHFT  &mt LALT TAB   &mo L_SYM       &kp SPACE    &kp LCTRL       &kp LGUI    &lt L_NAV BSPC  &lt L_MAC ENTER     &lt L_SYM ESC    &kp RSHFT
             >;
 
             sensor-bindings = <&scrl_enc SCRL_DOWN SCRL_UP>;
@@ -202,7 +201,7 @@
 &trans     &trans         &trans          &trans       &trans                                      &trans      &trans           &trans              &trans      &trans
 &trans     &trans         &trans          &trans       &trans                                      &mkp MB3    &mkp MB1         &mkp MB2            &mkp MB4    &mkp MB5
 &trans     &trans         &trans          &trans       &trans                                      &trans      &trans           &trans              &trans      &trans
-&trans     &trans         &trans          &none        &trans      &trans        &trans    &trans                                &trans              &trans      &trans
+&trans     &trans         &trans          &trans       &trans          &trans      &trans          &trans              &trans           &trans
             >;
         };
 
@@ -226,7 +225,7 @@
 &kp LG(LA(LEFT))  &kp LC(LEFT)  &kp LC(UP)  &kp LC(RIGHT)  &kp LG(LA(RIGHT))                       &kp LG(N1)     &kp LG(N2)     &kp LG(N3)          &kp LG(LBKT)      &kp LG(RBKT)
 &kp HOME          &kp LEFT      &kp DOWN    &kp UP         &kp RIGHT                               &kp LC(SPACE)  &kp LG(SPACE)  &kp LG(GRAVE)       &kp LG(LA(I))     &kp DEL
 &kp END           &kp PG_DN     &kp PG_UP   &kp LA(LEFT)   &kp LA(RIGHT)                           &kp C_MUTE     &kp C_VOL_DN   &kp C_VOL_UP        &kp LG(BSPC)      &kp LA(BSPC)
-&trans            &trans        &trans      &none          &trans      &trans    &trans  &trans                                  &kp LG(LS(N4))      &kp LG(LS(N5))    &kp LG(LA(ESC))
+&trans     &trans         &trans          &trans       &trans          &trans      &trans          &kp LG(LS(N4))      &kp LG(LS(N5))   &kp LG(LA(ESC))
             >;
 
             sensor-bindings = <&kp_enc PG_DN PG_UP>;
@@ -246,7 +245,7 @@
 &kp EXCL   &kp AT         &kp HASH        &kp DLLR     &kp PRCNT                                   &kp GRAVE   &kp N7           &kp N8              &kp N9      &kp ASTRK
 &kp LBRC   &kp RBRC       &kp LPAR        &kp RPAR     &kp SQT                                     &kp AMPS    &kp N4           &kp N5              &kp N6      &kp MINUS
 &kp LBKT   &kp RBKT       &kp LT          &kp GT       &kp UNDER                                   &kp PIPE    &kp N1           &kp N2              &kp N3      &kp PLUS
-&trans     &trans         &trans          &none        &trans      &trans        &trans    &kp N0                                &kp EQUAL           &trans      &trans
+&trans     &trans         &trans          &trans       &trans          &trans      &kp N0          &kp EQUAL           &trans           &trans
             >;
 
             sensor-bindings = <&kp_enc LG(Z) LG(LS(Z))>;
@@ -264,7 +263,7 @@
 &kp F1        &kp F2        &kp F3          &kp F4          &kp F5                                  &trans   &trans   &trans   &trans   &trans
 &kp F6        &kp F7        &kp F8          &kp F9          &kp F10                                 &trans   &trans   &trans   &trans   &trans
 &kp F11       &kp F12       &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_CLR                              &trans   &trans   &trans   &trans   &trans
-&bootloader   &tog L_SNIPE  &studio_unlock  &none           &kp C_PP    &trans      &trans  &trans                    &trans   &trans   &trans
+&bootloader&tog L_SNIPE   &studio_unlock  &kp C_PP     &trans          &trans      &trans          &trans              &trans           &trans
             >;
 
             sensor-bindings = <&kp_enc C_VOL_DN C_VOL_UP>;
@@ -280,7 +279,7 @@
 &trans     &trans         &trans          &trans       &trans                                      &trans      &trans           &trans              &trans      &trans
 &trans     &trans         &trans          &trans       &trans                                      &trans      &trans           &trans              &trans      &trans
 &trans     &trans         &trans          &trans       &trans                                      &trans      &trans           &trans              &trans      &trans
-&trans     &trans         &trans          &none        &trans      &trans        &trans    &trans                                &trans              &trans      &trans
+&trans     &trans         &trans          &trans       &trans          &trans      &trans          &trans              &trans           &trans
             >;
         };
     };
