@@ -61,6 +61,26 @@ Firmware is built by GitHub Actions on every push; download the `firmware`
 artifact from the run and flash the `.uf2` files. Studio is enabled on the
 right (central) half only.
 
+### If flashing appears to change nothing
+
+Studio brings `ZMK_KEYMAP_SETTINGS_STORAGE` with it
+(`ZMK_STUDIO_RPC` selects it), which makes the keymap live in the board's
+settings partition. `keymap.c` loads that over the compiled-in keymap at boot,
+so once a keymap has been saved from Studio it wins over every later flash —
+the new firmware goes on and the old keymap keeps running.
+
+Flash the `settings_reset` build to **both** halves first, then flash the real
+firmware. That clears Bluetooth pairings too, so unpair the keyboard on the
+host and let the halves find each other again afterwards.
+
+Two other things worth knowing when a key behaves unexpectedly:
+
+- The central half holds the whole keymap; the peripheral only reports key
+  positions. Flashing only the left half changes nothing about the keymap.
+- The bottom row moved a lot from the pre-macOS keymap — Space and Backspace in
+  particular swapped halves — so an old muscle-memory press lands somewhere
+  genuinely different rather than on a broken key.
+
 To build locally against a ZMK tree in a dev container:
 
 ```sh
