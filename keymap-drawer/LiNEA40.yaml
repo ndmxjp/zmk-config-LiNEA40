@@ -33,14 +33,14 @@ layers:
   - /
   - SHIFT
   - {t: TAB, h: OPT}
-  - {t: ESC, h: Mac}
   - Sym
+  - ''
   - SPACE
   - CTRL
   - CMD
   - {t: BSPC, h: Nav}
   - {t: ENTER, h: Mac}
-  - Sym
+  - {t: ESC, h: Sym}
   - SHIFT
   Mouse:
   - {t: ▽, type: trans}
@@ -76,7 +76,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -90,49 +90,49 @@ layers:
   - ⌃↑
   - ⌃→
   - ⌘⌥→
+  - ⌘1
+  - ⌘2
+  - ⌘3
   - ⌘[
   - ⌘]
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - DEL
   - HOME
   - ←
   - ↓
   - ↑
   - →
   - ⌃SPACE
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - ⌘BSPC
+  - ⌘SPACE
+  - ⌘`
+  - ⌘⌥I
+  - DEL
   - END
   - PG DN
   - PG UP
   - ⌥←
   - ⌥→
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - MUTE
+  - VOL DN
+  - VOL UP
+  - ⌘BSPC
   - ⌥BSPC
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {type: held}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ⌘⇧4
+  - ⌘⇧5
+  - ⌘⌥ESC
   Sym:
   - '!'
   - '@'
   - '#'
   - $
   - '%'
-  - ^
+  - '`'
   - '7'
   - '8'
   - '9'
@@ -159,8 +159,8 @@ layers:
   - +
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - '`'
   - {type: held}
+  - ''
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -174,42 +174,42 @@ layers:
   - F3
   - F4
   - F5
-  - ⌘SPACE
-  - ⌃SPACE
-  - ⌘1
-  - ⌘2
-  - ⌘3
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - F6
   - F7
   - F8
   - F9
   - F10
-  - ⌘⇧4
-  - ⌘⇧5
-  - ⌘`
-  - ⌘⌥I
-  - ⌘⌥ESC
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - F11
   - F12
   - {t: BT, h: '0'}
   - {t: BT, h: '1'}
   - BT CLR
-  - MUTE
-  - VOL DN
-  - VOL UP
-  - PREV
-  - NEXT
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - Boot
   - {t: Snipe, h: toggle}
-  - {type: held}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - Studio
+  - ''
   - PP
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - Studio
+  - {t: ▽, type: trans}
+  - {type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   Snipe:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -244,7 +244,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
