@@ -55,7 +55,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {t: F, h: Snipe}
   - {t: ▽, type: trans}
   - Click M
   - Click L
@@ -196,9 +196,9 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - Boot
-  - {t: Snipe, h: toggle}
   - Studio
   - PP
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -219,13 +219,13 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
+  - {type: held}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - Click M
+  - Click L
+  - Click R
+  - Back
+  - Fwd
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
