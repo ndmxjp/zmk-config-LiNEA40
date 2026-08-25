@@ -1,21 +1,53 @@
+/*
+ * LiNEA40 keymap  --  macOS / US layout
+ *
+ * Modifier layout
+ *   Ctrl : left thumb (inner)   -- ^P ^N ^H ^K are right-hand letters
+ *   Cmd  : right thumb (inner)  -- Cmd-C/V/X/Z/A/S/W/Q/T/F are left-hand letters
+ *   Space, Ctrl, Cmd and both Shifts are plain &kp -- no hold-tap on any key
+ *   that sits in the typing flow.
+ *
+ * Layer numbers 1, 3 and 5 are also referenced by the PMW3610 trackball in
+ * LiNEA40_right.overlay (automouse-layer / scroll-layers / snipe-layers).
+ * Keep them in sync when renumbering.
+ */
+
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 150
 
-#include <dt-bindings/zmk/input_transform.h>
-#include <input/processors.dtsi>
-#include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/input_transform.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
+#include <input/processors.dtsi>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
 
-#define MOUSE 1
-#define MARK 2
-#define CURSOR 3
-#define FUNCTION 4
-#define SCROLL 5
-#define WIRELESS 6
+/*
+ * Layer names are prefixed so the preprocessor cannot rewrite the keymap node
+ * names below (a bare `#define MOUSE 1` turns a `MOUSE { }` node into `1 { }`).
+ */
+#define L_BASE  0
+#define L_MOUSE 1   /* automouse-layer -- trackball moves */
+#define L_NAV   2
+#define L_SYM   3   /* scroll-layers   -- trackball scrolls */
+#define L_MAC   4
+#define L_SNIPE 5   /* snipe-layers    -- trackball precision */
 
-//mouse cursol
+/* Hold-taps sit only on keys outside the typing flow, so tuning them globally
+ * is safe. quick-tap-ms lets Bspc/Enter auto-repeat when tapped then held. */
+
+&lt {
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <175>;
+};
+
+&mt {
+    flavor = "tap-preferred";
+    tapping-term-ms = <200>;
+};
+
+/* Pointer movement (mouse keys) */
 
 &mmv {
     delay-ms = <20>;
@@ -24,7 +56,7 @@
     acceleration-exponent = <2>;
 };
 
-//mouse scroll
+/* Pointer scrolling (encoder + mouse keys) */
 
 &msc {
     delay-ms = <3>;
@@ -45,71 +77,37 @@
     };
 };
 
+/* NAV held -> encoder scrolls three times as fast */
+
 &msc_input_listener {
-    speed_up {
-        layers = <FUNCTION>;
-        input-processors = <&zip_wheel_scaler 3 1>; //スクロールを3倍速にする
+    fast_scroll {
+        layers = <L_NAV>;
+        input-processors = <&zip_wheel_scaler 3 1>;
     };
 };
 
+/* SYM held -> trackball scrolls instead of moving the pointer.
+ * SYM is reachable from the left index (x3), which keeps the whole right hand
+ * free for the ball. Y is inverted to match macOS natural scrolling. */
+
 &trackball_listener {
     scroller {
-        layers = <SCROLL>;
+        layers = <L_SYM>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転
             <&zip_xy_to_scroll_mapper>;
     };
 };
 
 / {
-    combos {
-        compatible = "zmk,combos";
-
-        ZenkakuHankaku {
-            bindings = <&kp GRAVE>;
-            key-positions = <11 12>;
-        };
-
-        DeleteKey {
-            bindings = <&kp DEL>;
-            key-positions = <7 8>;
-        };
-
-        InsertKey {
-            bindings = <&kp INS>;
-            key-positions = <6 7>;
-        };
-
-        CenterClick {
-            bindings = <&mkp MB3>;
-            key-positions = <17 16>;
-        };
-
-        RightClick {
-            bindings = <&mkp MB2>;
-            key-positions = <18 17>;
-        };
-
-        PrevClick {
-            bindings = <&mkp MB4>;
-            key-positions = <27 28>;
-        };
-
-        ClickNext {
-            bindings = <&mkp MB5>;
-            key-positions = <26 27>;
-        };
-    };
-
     behaviors {
-        re_kp: sensor_rotate_kp {
+        kp_enc: sensor_rotate_kp {
             compatible = "zmk,behavior-sensor-rotate-var";
             #sensor-binding-cells = <2>;
             bindings = <&kp>, <&kp>;
         };
 
-        mouse_scrl: mouse_wheel_scrl {
+        scrl_enc: sensor_rotate_msc {
             compatible = "zmk,behavior-sensor-rotate-var";
             #sensor-binding-cells = <2>;
             bindings = <&msc>, <&msc>;
@@ -118,92 +116,150 @@
         };
     };
 
+    combos {
+        compatible = "zmk,combos";
+
+        /* Both left thumb keys at once. Ctrl and Space share the left thumb,
+         * so ^Space (input source switch) cannot be pressed as a real chord. */
+        ime_toggle {
+            bindings = <&kp LC(SPACE)>;
+            key-positions = <34 35>;
+        };
+
+        del_key {
+            bindings = <&kp DEL>;
+            key-positions = <7 8>;
+        };
+
+        mid_click {
+            bindings = <&mkp MB3>;
+            key-positions = <16 17>;
+        };
+
+        right_click {
+            bindings = <&mkp MB2>;
+            key-positions = <17 18>;
+        };
+
+        back_click {
+            bindings = <&mkp MB4>;
+            key-positions = <27 28>;
+        };
+
+        fwd_click {
+            bindings = <&mkp MB5>;
+            key-positions = <26 27>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
-        default_layer {
+        /*
+         *  Q      W      E      R      T                  Y      U      I      O      P
+         *  A      S      D      F      G                  H      J      K      L      ;
+         *  Z      X      C      V      B                  N      M      ,      .      /
+         *  Shift  Tab    Esc    SYM    Space  Ctrl  Cmd    Bspc   (o)    Enter  SYM    Shift
+         *         (Alt)  (MAC)                                   (NAV)         (MAC)
+         */
+        base_layer {
+            display-name = "Base";
             bindings = <
-&kp Q          &kp W         &kp E               &kp R    &kp T                                      &kp Y        &kp U  &kp I                &kp O          &kp P
-&kp A          &kp S         &kp D               &kp F    &kp G                                      &kp H        &kp J  &kp K                &kp L          &lt 5 MINUS
-&kp Z          &kp X         &kp C               &kp V    &kp B                                      &kp N        &kp M  &kp COMMA            &kp DOT        &mt RIGHT_SHIFT BACKSPACE
-&mt LCTRL ESC  &kp LEFT_WIN  &mt LEFT_ALT GRAVE  &kp INS  &lt 5 ENTER  &lt 2 TAB    &lt 2 BACKSPACE  &lt 4 SPACE         &lt 6 RIGHT_BRACKET  &kp BACKSLASH  &mt RIGHT_SHIFT SLASH
+&kp Q      &kp W          &kp E           &kp R        &kp T                                       &kp Y      &kp U             &kp I               &kp O       &kp P
+&kp A      &kp S          &kp D           &kp F        &kp G                                       &kp H      &kp J             &kp K               &kp L       &kp SEMI
+&kp Z      &kp X          &kp C           &kp V        &kp B                                       &kp N      &kp M             &kp COMMA           &kp DOT     &kp SLASH
+&kp LSHFT  &mt LALT TAB   &lt L_MAC ESC   &mo L_SYM    &kp SPACE   &kp LCTRL     &kp LGUI  &lt L_NAV BSPC                       &lt L_MAC ENTER     &mo L_SYM   &kp RSHFT
             >;
 
-            sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
+            sensor-bindings = <&scrl_enc SCRL_DOWN SCRL_UP>;
         };
 
-        //1
-
-        MOUSE {
+        /*
+         * Layer 1 -- entered automatically while the trackball is moving
+         * (automouse-layer in LiNEA40_right.overlay). Click cluster lands on
+         * the right home row, under the hand already on the ball.
+         */
+        mouse_layer {
+            display-name = "Mouse";
             bindings = <
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans    &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans                    &trans  &mkp MB1  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans    &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans            &trans  &trans  &trans
-            >;
-        };
-
-        //2
-
-        MARK {
-            bindings = <
-&kp EXCLAMATION             &kp AT           &kp HASH         &kp DOLLAR     &kp PERCENT                      &kp CARET     &kp AMPERSAND  &kp ASTERISK           &kp LEFT_PARENTHESIS  &kp LBKT
-&kp SLASH                   &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp SEMICOLON  &kp SEMICOLON                    &kp C_MUTE    &kp LS(LBKT)   &kp RIGHT_BRACKET      &kp BACKSLASH         &kp EQUAL
-&mt LEFT_SHIFT KP_NUMBER_0  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp APOS       &kp SQT                          &kp KP_EQUAL  &kp INT3       &kp LS(RIGHT_BRACKET)  &kp LS(BACKSLASH)     &kp LS(INT1)
-&trans                      &trans           &trans           &trans         &trans         &trans    &trans  &trans                       &kp ASTERISK           &kp LEFT_PARENTHESIS  &kp LS(QUESTION)
-            >;
-
-            sensor-bindings = <&re_kp C_VOLUME_DOWN C_VOLUME_UP>;
-        };
-
-        //3
-
-        CURSOR {
-            bindings = <
-&trans    &kp LC(LG(LEFT_ARROW))  &kp UP_ARROW  &kp LC(LG(RIGHT_ARROW))  &trans                       &kp KP_MULTIPLY  &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp KP_PLUS
-&trans    &kp LEFT_ARROW          &kp DOWN      &kp RIGHT_ARROW          &trans                       &kp KP_SLASH     &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp KP_MINUS
-&kp HOME  &kp PAGE_DOWN           &kp END       &kp PAGE_UP              &trans                       &kp UNDER        &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp ENTER
-&trans    &trans                  &trans        &trans                   &trans  &trans    &kp ENTER  &kp NUMBER_0                   &kp DOT       &kp ENTER     &kp QUESTION
+&trans     &trans         &trans          &trans       &trans                                      &trans      &trans           &trans              &trans      &trans
+&trans     &trans         &trans          &trans       &trans                                      &mkp MB3    &mkp MB1         &mkp MB2            &mkp MB4    &mkp MB5
+&trans     &trans         &trans          &trans       &trans                                      &trans      &trans           &trans              &trans      &trans
+&trans     &trans         &trans          &trans       &trans      &trans        &trans    &trans                                &trans              &trans      &trans
             >;
         };
 
-        //4
-
-        FUNCTION {
+        /*
+         * Layer 2 -- hold the right thumb (Bspc), work with the left hand.
+         *
+         *  Cmd-Alt-Lt  Ctrl-Lt  Ctrl-Up  Ctrl-Rt  Cmd-Alt-Rt      Cmd-[   Cmd-]   .    .    Del
+         *  Home        Left     Down     Up       Right           .       .       .    .    Cmd-Bspc
+         *  End         PgDn     PgUp     Alt-Lt   Alt-Rt          .       .       .    .    Alt-Bspc
+         *
+         * Top row is everything that moves a window or a tab: Mission Control
+         * in the middle, macOS spaces either side of it, Chrome tabs outermost.
+         */
+        nav_layer {
+            display-name = "Nav";
             bindings = <
-&kp F1  &kp F2  &kp F3  &kp F4   &kp F5                     &trans      &trans  &kp LA(PRINTSCREEN)  &trans  &kp LC(LA(DELETE))
-&kp F6  &kp F7  &kp F8  &kp F9   &kp F10                    &trans      &trans  &kp LS(LG(S))        &trans  &kp LC(LS(ESCAPE))
-&trans  &trans  &trans  &kp F11  &kp F12                    &kp C_MUTE  &trans  &trans               &trans  &kp LC(LA(INS))
-&trans  &trans  &trans  &trans   &trans   &trans    &trans  &trans              &trans               &trans  &trans
+&kp LG(LA(LEFT))  &kp LC(LEFT)  &kp LC(UP)  &kp LC(RIGHT)  &kp LG(LA(RIGHT))                       &kp LG(LBKT)  &kp LG(RBKT)   &trans              &trans      &kp DEL
+&kp HOME          &kp LEFT      &kp DOWN    &kp UP         &kp RIGHT                               &trans        &trans         &trans              &trans      &kp LG(BSPC)
+&kp END           &kp PG_DN     &kp PG_UP   &kp LA(LEFT)   &kp LA(RIGHT)                           &trans        &trans         &trans              &trans      &kp LA(BSPC)
+&trans            &trans        &trans      &trans         &trans      &trans    &trans  &trans                                 &trans              &trans      &trans
             >;
 
-            sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
+            sensor-bindings = <&kp_enc PG_DN PG_UP>;
         };
 
-        //5
-
-        SCROLL {
+        /*
+         * Layer 3 -- two entry points, so either hand can hold it:
+         *   left index (x3)  -> right hand free  -> numbers and operators
+         *   right ring (x11) -> left hand free   -> brackets and punctuation
+         *
+         * US layout, so Shift covers the rest: ~ from `, " from ', ? from /,
+         * : from ;. Only the pairs that matter in code get an explicit key.
+         */
+        sym_layer {
+            display-name = "Sym";
             bindings = <
-&trans    &kp LC(LG(LEFT_ARROW))  &kp UP_ARROW  &kp LC(LG(RIGHT_ARROW))  &trans                    &kp KP_MULTIPLY  &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp KP_PLUS
-&trans    &kp LEFT_ARROW          &kp DOWN      &kp RIGHT_ARROW          &trans                    &kp KP_SLASH     &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp KP_MINUS
-&kp HOME  &kp PAGE_DOWN           &kp END       &kp PAGE_UP              &trans                    &kp UNDER        &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp ENTER
-&trans    &trans                  &trans        &trans                   &trans  &trans    &trans  &kp NUMBER_0                   &kp NUMBER_0  &kp DOT       &kp QUESTION
+&kp EXCL   &kp AT         &kp HASH        &kp DLLR     &kp PRCNT                                   &kp CARET   &kp N7           &kp N8              &kp N9      &kp ASTRK
+&kp LBRC   &kp RBRC       &kp LPAR        &kp RPAR     &kp SQT                                     &kp AMPS    &kp N4           &kp N5              &kp N6      &kp MINUS
+&kp LBKT   &kp RBKT       &kp LT          &kp GT       &kp UNDER                                   &kp PIPE    &kp N1           &kp N2              &kp N3      &kp PLUS
+&trans     &trans         &kp GRAVE       &trans       &trans      &trans        &trans    &kp N0                                &kp EQUAL           &trans      &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp DOWN_ARROW UP_ARROW>;
+            sensor-bindings = <&kp_enc LG(Z) LG(LS(Z))>;
         };
 
-        //6
-
-        WIRELESS {
+        /*
+         * Layer 4 -- also two entry points, each exposing the opposite hand:
+         *   left middle (x2) -> right hand -> Spotlight, input source, Cmd-1..3
+         *   right middle (x10) -> left hand -> F1..F12, Bluetooth
+         */
+        mac_layer {
+            display-name = "Mac";
             bindings = <
-&bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                         &bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
-&trans        &trans        &trans        &trans        &trans                               &trans          &trans        &trans        &trans        &trans
-&trans        &trans        &trans        &trans        &trans                               &trans          &trans        &trans        &trans        &bt BT_CLR
-&trans        &trans        &trans        &trans        &trans        &trans    &bootloader  &studio_unlock                &trans        &trans        &bt BT_CLR_ALL
+&kp F1        &kp F2        &kp F3          &kp F4          &kp F5                                  &kp LG(SPACE)      &kp LC(SPACE)      &kp LG(N1)      &kp LG(N2)      &kp LG(N3)
+&kp F6        &kp F7        &kp F8          &kp F9          &kp F10                                 &kp LG(LS(N4))     &kp LG(LS(N5))     &kp LG(GRAVE)   &kp LG(LA(I))   &kp LG(LA(ESC))
+&kp F11       &kp F12       &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_CLR                              &kp C_MUTE         &kp C_VOL_DN       &kp C_VOL_UP    &kp C_PREV      &kp C_NEXT
+&bootloader   &tog L_SNIPE  &trans          &trans          &trans      &trans      &trans  &kp C_PP                                      &trans          &trans          &studio_unlock
             >;
 
-            sensor-bindings = <&inc_dec_kp RIGHT_ARROW LEFT_ARROW>;
+            sensor-bindings = <&kp_enc C_VOL_DN C_VOL_UP>;
+        };
+
+        /*
+         * Layer 5 -- trackball precision mode (snipe-layers). Toggled from the
+         * MAC layer; every key falls through to whatever is underneath.
+         */
+        snipe_layer {
+            display-name = "Snipe";
+            bindings = <
+&trans     &trans         &trans          &trans       &trans                                      &trans      &trans           &trans              &trans      &trans
+&trans     &trans         &trans          &trans       &trans                                      &trans      &trans           &trans              &trans      &trans
+&trans     &trans         &trans          &trans       &trans                                      &trans      &trans           &trans              &trans      &trans
+&trans     &trans         &trans          &trans       &trans      &trans        &trans    &trans                                &trans              &trans      &trans
+            >;
         };
     };
 };
