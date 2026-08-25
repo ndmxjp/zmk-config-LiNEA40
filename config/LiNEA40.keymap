@@ -116,39 +116,51 @@
         };
     };
 
+    /*
+     * A key that belongs to a combo has its press captured until the combo
+     * resolves or times out, so no key used while typing belongs to one.
+     * Space especially: it sat in a combo with Ctrl, its own neighbour under
+     * the left thumb, which both delayed every space and turned a slightly
+     * wide thumb press into ^Space. ^Space lives on the Nav and Mac layers
+     * instead.
+     *
+     * require-prior-idle-ms drops these combos from the candidate list
+     * entirely while keys are still flowing, which keeps the capture off the
+     * letters they are built from -- "stdio" no longer risks a Delete. Rolling
+     * the ball is not a keycode event, so the click combos stay live whenever
+     * the hand is actually on the ball.
+     */
     combos {
         compatible = "zmk,combos";
-
-        /* Both left thumb keys at once. Ctrl and Space share the left thumb,
-         * so ^Space (input source switch) cannot be pressed as a real chord. */
-        ime_toggle {
-            bindings = <&kp LC(SPACE)>;
-            key-positions = <34 35>;
-        };
 
         del_key {
             bindings = <&kp DEL>;
             key-positions = <7 8>;
+            require-prior-idle-ms = <150>;
         };
 
         mid_click {
             bindings = <&mkp MB3>;
             key-positions = <16 17>;
+            require-prior-idle-ms = <150>;
         };
 
         right_click {
             bindings = <&mkp MB2>;
             key-positions = <17 18>;
+            require-prior-idle-ms = <150>;
         };
 
         back_click {
             bindings = <&mkp MB4>;
             key-positions = <27 28>;
+            require-prior-idle-ms = <150>;
         };
 
         fwd_click {
             bindings = <&mkp MB5>;
             key-positions = <26 27>;
+            require-prior-idle-ms = <150>;
         };
     };
 
@@ -192,9 +204,9 @@
         /*
          * Layer 2 -- hold the right thumb (Bspc), work with the left hand.
          *
-         *  Cmd-Alt-Lt  Ctrl-Lt  Ctrl-Up  Ctrl-Rt  Cmd-Alt-Rt      Cmd-[   Cmd-]   .    .    Del
-         *  Home        Left     Down     Up       Right           .       .       .    .    Cmd-Bspc
-         *  End         PgDn     PgUp     Alt-Lt   Alt-Rt          .       .       .    .    Alt-Bspc
+         *  Cmd-Alt-Lt  Ctrl-Lt  Ctrl-Up  Ctrl-Rt  Cmd-Alt-Rt      Cmd-[     Cmd-]  .    .    Del
+         *  Home        Left     Down     Up       Right           Ctrl-Spc  .      .    .    Cmd-Bspc
+         *  End         PgDn     PgUp     Alt-Lt   Alt-Rt          .         .      .    .    Alt-Bspc
          *
          * Top row is everything that moves a window or a tab: Mission Control
          * in the middle, macOS spaces either side of it, Chrome tabs outermost.
@@ -203,7 +215,7 @@
             display-name = "Nav";
             bindings = <
 &kp LG(LA(LEFT))  &kp LC(LEFT)  &kp LC(UP)  &kp LC(RIGHT)  &kp LG(LA(RIGHT))                       &kp LG(LBKT)  &kp LG(RBKT)   &trans              &trans      &kp DEL
-&kp HOME          &kp LEFT      &kp DOWN    &kp UP         &kp RIGHT                               &trans        &trans         &trans              &trans      &kp LG(BSPC)
+&kp HOME          &kp LEFT      &kp DOWN    &kp UP         &kp RIGHT                               &kp LC(SPACE) &trans         &trans              &trans      &kp LG(BSPC)
 &kp END           &kp PG_DN     &kp PG_UP   &kp LA(LEFT)   &kp LA(RIGHT)                           &trans        &trans         &trans              &trans      &kp LA(BSPC)
 &trans            &trans        &trans      &trans         &trans      &trans    &trans  &trans                                 &trans              &trans      &trans
             >;

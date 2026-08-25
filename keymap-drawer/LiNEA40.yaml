@@ -100,7 +100,7 @@ layers:
   - ↓
   - ↑
   - →
-  - {t: ▽, type: trans}
+  - ⌃SPACE
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -253,8 +253,6 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
 combos:
-- p: [34, 35]
-  k: ⌃SPACE
 - p: [7, 8]
   k: DEL
 - p: [16, 17]
