@@ -40,16 +40,24 @@ share the left thumb — so it is a combo on both left thumb keys at once.
 
 | # | Name | Entered by | Contents |
 |---|------|-----------|----------|
-| 0 | Base | — | US alpha block |
+| 0 | Base | — | US alpha block, `-` on the right pinky home key |
 | 1 | Mouse | trackball movement (`automouse-layer`) | click cluster on the right home row |
-| 2 | Nav | right thumb (Bspc) held | arrows, browser tabs, macOS spaces |
-| 3 | Sym | left index **or** right ring held | numbers and symbols; also `scroll-layers` |
-| 4 | Mac | left middle **or** right middle held | app shortcuts, F-keys, Bluetooth |
-| 5 | Snipe | `&tog` from the Mac layer | trackball precision (`snipe-layers`) |
+| 2 | Nav | right thumb (Bspc) held | arrows, browser tabs, macOS spaces, app shortcuts |
+| 3 | Sym | left middle **or** right ring held | numbers and symbols; also `scroll-layers` |
+| 4 | Mac | Nav **and** Sym held together | F-keys, Bluetooth, bootloader |
+| 5 | Snipe | left index held on the Mouse layer | trackball precision (`snipe-layers`) |
 
-Layers 3 and 4 each have two entry points, one per hand, so one layer shows
-different halves depending on which hand holds it — brackets versus numbers,
-and app shortcuts versus F-keys.
+Layer 3 has two entry points, one per hand, so it shows different halves
+depending on which hand holds it — brackets from the right, numbers from the
+left.
+
+The right pinky home key is `-` rather than `;`, because it types the Japanese
+long vowel mark and turns up about as often as a letter. `;` drops a row (Shift
+still gives `:`) and `/` lives on the Sym layer.
+
+Space and Enter both sit under a thumb, which is what Japanese input wants —
+space to convert, Enter to commit. Cmd took the bottom-row position Enter gave
+up: it is held rather than tapped, so it tolerates the worse spot.
 
 Layers 1, 3 and 5 are also referenced by the trackball in
 `config/boards/shields/LiNEA40/LiNEA40_right.overlay`; keep the two in sync

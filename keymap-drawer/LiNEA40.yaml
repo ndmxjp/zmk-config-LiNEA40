@@ -20,7 +20,7 @@ layers:
   - J
   - K
   - L
-  - ;
+  - '-'
   - Z
   - X
   - C
@@ -30,15 +30,15 @@ layers:
   - M
   - ','
   - .
-  - /
+  - ;
   - SHIFT
   - {t: TAB, h: OPT}
   - Sym
   - SPACE
   - CTRL
-  - CMD
+  - ENTER
   - {t: BSPC, h: Nav}
-  - {t: ENTER, h: Mac}
+  - CMD
   - {t: ESC, h: Sym}
   - SHIFT
   Mouse:
@@ -115,7 +115,7 @@ layers:
   - ⌥BSPC
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - Mac
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -143,7 +143,7 @@ layers:
   - '4'
   - '5'
   - '6'
-  - '-'
+  - /
   - '['
   - ']'
   - <
@@ -159,12 +159,17 @@ layers:
   - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
   - '0'
+  - Mac
   - '='
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   Mac:
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - F1
   - F2
   - F3
@@ -190,19 +195,14 @@ layers:
   - {t: BT, h: '0'}
   - {t: BT, h: '1'}
   - BT CLR
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
   - Boot
   - Studio
-  - PP
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
   - {type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - PP
+  - {type: held}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   Snipe:

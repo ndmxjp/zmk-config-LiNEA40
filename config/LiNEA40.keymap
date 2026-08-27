@@ -2,10 +2,13 @@
  * LiNEA40 keymap  --  macOS / US layout
  *
  * Modifier layout
- *   Ctrl : left thumb (inner)   -- ^P ^N ^H ^K are right-hand letters
- *   Cmd  : right thumb (inner)  -- Cmd-C/V/X/Z/A/S/W/Q/T/F are left-hand letters
- *   Space, Ctrl, Cmd and both Shifts are plain &kp. Bspc and Enter do carry a
- *   layer on their hold, so they use &lt_tap rather than &lt -- see below.
+ *   Ctrl : left thumb (inner) -- ^P ^N ^H ^K are right-hand letters
+ *   Cmd  : right middle finger, bottom row -- its letters (C V X Z A S W Q T F)
+ *          are left-hand ones, and Cmd is held rather than tapped, so it can
+ *          afford the position Enter gave up. Japanese input taps Enter as often
+ *          as Space, and both now sit under a thumb.
+ *   Space, Enter, Ctrl, Cmd and both Shifts are plain &kp. Bspc is the only key
+ *   in the typing flow still carrying a layer, so it uses &lt_tap -- see below.
  *
  * Layer numbers 1, 3 and 5 are also referenced by the PMW3610 trackball in
  * LiNEA40_right.overlay (automouse-layer / scroll-layers / snipe-layers).
@@ -40,8 +43,8 @@
  * the hold win as soon as another key is pressed and released, which is what a
  * layer key wants: hold it, press a symbol, get the symbol.
  *
- * &lt_tap is for keys whose TAP is the common action -- Bspc, Enter, and the F
- * that reaches snipe mode. Those sit in the middle of typing, and "balanced"
+ * &lt_tap is for keys whose TAP is the common action -- Bspc and the F that
+ * reaches snipe mode. Those sit in the middle of typing, and "balanced"
  * alone breaks them: press Bspc, roll into the next letter before releasing it,
  * and decide_balanced() calls that HOLD_INTERRUPT -- the delete never happens
  * and the letter comes off the Nav layer instead. require-prior-idle-ms settles
@@ -194,21 +197,25 @@
         /*
          * 40 keys. The bottom row carries five per half: the encoder occupies
          * the position between SYM and Space on the left, and the trackball the
-         * one between Bspc and Enter on the right. Neither is in the layout.
+         * one between Bspc and Cmd on the right. Neither is in the layout.
          *
          *  Q      W      E      R      T                  Y      U      I      O      P
-         *  A      S      D      F      G                  H      J      K      L      ;
-         *  Z      X      C      V      B                  N      M      ,      .      /
-         *  Shift  Tab    SYM   (enc) Space Ctrl    Cmd    Bspc  (ball) Enter  Esc    Shift
-         *         (Alt)                                         (NAV)        (MAC)  (SYM)
+         *  A      S      D      F      G                  H      J      K      L      -
+         *  Z      X      C      V      B                  N      M      ,      .      ;
+         *  Shift  Tab    SYM   (enc) Space Ctrl   Enter   Bspc  (ball)  Cmd    Esc    Shift
+         *         (Alt)                                         (NAV)                (SYM)
+         *
+         * The right pinky home key is "-" rather than ";": it types the Japanese
+         * long vowel mark, which turns up about as often as a letter. ";" drops a
+         * row (Shift still gives ":"), and "/" moves to the Sym layer.
          */
         base_layer {
             display-name = "Base";
             bindings = <
-&kp Q      &kp W          &kp E           &kp R        &kp T                                       &kp Y      &kp U             &kp I               &kp O           &kp P
-&kp A      &kp S          &kp D           &kp F        &kp G                                       &kp H      &kp J             &kp K               &kp L           &kp SEMI
-&kp Z      &kp X          &kp C           &kp V        &kp B                                       &kp N      &kp M             &kp COMMA           &kp DOT         &kp SLASH
-&kp LSHFT  &mt LALT TAB   &mo L_SYM       &kp SPACE    &kp LCTRL       &kp LGUI    &lt_tap L_NAV BSPC  &lt_tap L_MAC ENTER     &lt L_SYM ESC    &kp RSHFT
+&kp Q        &kp W          &kp E           &kp R        &kp T             &kp Y              &kp U               &kp I        &kp O            &kp P
+&kp A        &kp S          &kp D           &kp F        &kp G             &kp H              &kp J               &kp K        &kp L            &kp MINUS
+&kp Z        &kp X          &kp C           &kp V        &kp B             &kp N              &kp M               &kp COMMA    &kp DOT          &kp SEMI
+&kp LSHFT    &mt LALT TAB   &mo L_SYM       &kp SPACE    &kp LCTRL         &kp ENTER          &lt_tap L_NAV BSPC  &kp LGUI     &lt L_SYM ESC    &kp RSHFT
             >;
 
             sensor-bindings = <&scrl_enc SCRL_DOWN SCRL_UP>;
@@ -248,14 +255,16 @@
          * Left top row is everything that moves a window or a tab: Mission
          * Control in the middle, macOS spaces either side of it, browser tabs
          * outermost. Right side is the fixed-chord app shortcuts.
+         *
+         * Adding SYM on top of this reaches the Mac layer.
          */
         nav_layer {
             display-name = "Nav";
             bindings = <
-&kp LG(LA(LEFT))  &kp LC(LEFT)  &kp LC(UP)  &kp LC(RIGHT)  &kp LG(LA(RIGHT))                       &kp LG(N1)     &kp LG(N2)     &kp LG(N3)          &kp LG(LBKT)      &kp LG(RBKT)
-&kp HOME          &kp LEFT      &kp DOWN    &kp UP         &kp RIGHT                               &kp LC(SPACE)  &kp LG(SPACE)  &kp LG(GRAVE)       &kp LG(LA(I))     &kp DEL
-&kp END           &kp PG_DN     &kp PG_UP   &kp LA(LEFT)   &kp LA(RIGHT)                           &kp C_MUTE     &kp C_VOL_DN   &kp C_VOL_UP        &kp LG(BSPC)      &kp LA(BSPC)
-&trans     &trans         &trans          &trans       &trans          &trans      &trans          &kp LG(LS(N4))      &kp LG(LS(N5))   &kp LG(LA(ESC))
+&kp LG(LA(LEFT))&kp LC(LEFT)   &kp LC(UP)      &kp LC(RIGHT)&kp LG(LA(RIGHT))  &kp LG(N1)         &kp LG(N2)          &kp LG(N3)   &kp LG(LBKT)     &kp LG(RBKT)
+&kp HOME     &kp LEFT       &kp DOWN        &kp UP       &kp RIGHT         &kp LC(SPACE)      &kp LG(SPACE)       &kp LG(GRAVE)&kp LG(LA(I))    &kp DEL
+&kp END      &kp PG_DN      &kp PG_UP       &kp LA(LEFT) &kp LA(RIGHT)     &kp C_MUTE         &kp C_VOL_DN        &kp C_VOL_UP &kp LG(BSPC)     &kp LA(BSPC)
+&trans       &trans         &mo L_MAC       &trans       &trans            &trans             &trans              &kp LG(LS(N4))&kp LG(LS(N5))   &kp LG(LA(ESC))
             >;
 
             sensor-bindings = <&kp_enc PG_DN PG_UP>;
@@ -268,32 +277,37 @@
          *
          * US layout, so Shift covers the rest: ~ from `, " from ', ? from /,
          * : from ;. Only the pairs that matter in code get an explicit key.
+         *
+         * Adding Nav on top of this reaches the Mac layer.
          */
         sym_layer {
             display-name = "Sym";
             bindings = <
-&kp EXCL   &kp AT         &kp HASH        &kp DLLR     &kp PRCNT                                   &kp GRAVE   &kp N7           &kp N8              &kp N9      &kp ASTRK
-&kp LBRC   &kp RBRC       &kp LPAR        &kp RPAR     &kp SQT                                     &kp AMPS    &kp N4           &kp N5              &kp N6      &kp MINUS
-&kp LBKT   &kp RBKT       &kp LT          &kp GT       &kp UNDER                                   &kp PIPE    &kp N1           &kp N2              &kp N3      &kp PLUS
-&trans     &trans         &trans          &trans       &trans          &trans      &kp N0          &kp EQUAL           &trans           &trans
+&kp EXCL     &kp AT         &kp HASH        &kp DLLR     &kp PRCNT         &kp GRAVE          &kp N7              &kp N8       &kp N9           &kp ASTRK
+&kp LBRC     &kp RBRC       &kp LPAR        &kp RPAR     &kp SQT           &kp AMPS           &kp N4              &kp N5       &kp N6           &kp SLASH
+&kp LBKT     &kp RBKT       &kp LT          &kp GT       &kp UNDER         &kp PIPE           &kp N1              &kp N2       &kp N3           &kp PLUS
+&trans       &trans         &trans          &trans       &trans            &kp N0             &mo L_MAC           &kp EQUAL    &trans           &trans
             >;
 
             sensor-bindings = <&kp_enc LG(Z) LG(LS(Z))>;
         };
 
         /*
-         * Layer 4 -- held by the right middle finger (Enter), so it is the left
-         * hand that is free. Losing the bottom-row key to the encoder cost this
-         * layer its left-hand entry point; the app shortcuts it used to hold on
-         * the right moved to the Nav layer, which a thumb hold keeps reachable.
+         * Layer 4 -- reached by holding Nav and Sym together, in either order.
+         * Enter used to carry it, but Enter is tapped far too often to sit on a
+         * hold, and nothing else on the base layer was free. F-keys and pairing
+         * are rare enough to live behind a two-key hold.
+         *
+         * Those two holds occupy the right thumb and the left middle finger, so
+         * the contents sit on the right hand, whose fingers are all free.
          */
         mac_layer {
             display-name = "Mac";
             bindings = <
-&kp F1        &kp F2        &kp F3          &kp F4          &kp F5                                  &trans   &trans   &trans   &trans   &trans
-&kp F6        &kp F7        &kp F8          &kp F9          &kp F10                                 &trans   &trans   &trans   &trans   &trans
-&kp F11       &kp F12       &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_CLR                              &trans   &trans   &trans   &trans   &trans
-&bootloader  &studio_unlock  &kp C_PP     &trans       &trans          &trans      &trans          &trans              &trans           &trans
+&trans       &trans         &trans          &trans       &trans            &kp F1             &kp F2              &kp F3       &kp F4           &kp F5
+&trans       &trans         &trans          &trans       &trans            &kp F6             &kp F7              &kp F8       &kp F9           &kp F10
+&trans       &trans         &trans          &trans       &trans            &kp F11            &kp F12             &bt BT_SEL 0 &bt BT_SEL 1     &bt BT_CLR
+&bootloader  &studio_unlock &trans          &trans       &trans            &kp C_PP           &trans              &trans       &trans           &trans
             >;
 
             sensor-bindings = <&kp_enc C_VOL_DN C_VOL_UP>;
