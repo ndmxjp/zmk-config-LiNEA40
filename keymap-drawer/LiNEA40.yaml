@@ -88,41 +88,41 @@ layers:
   - ⌃↑
   - ⌃→
   - ⌘⌥→
-  - ⌘1
-  - ⌘2
-  - ⌘3
+  - ⌥←
   - ⌘[
   - ⌘]
-  - HOME
-  - ←
-  - ↓
-  - ↑
-  - →
+  - ⌥→
+  - DEL
   - ⌃SPACE
   - ⌘SPACE
   - ⌘`
   - ⌘⌥I
-  - DEL
-  - END
+  - ⌘⌥ESC
+  - ←
+  - ↓
+  - ↑
+  - →
+  - ⌘BSPC
+  - ⌘1
+  - ⌘2
+  - ⌘3
+  - ⌘⇧4
+  - ⌘⇧5
+  - HOME
   - PG DN
   - PG UP
-  - ⌥←
-  - ⌥→
-  - MUTE
-  - VOL DN
-  - VOL UP
-  - ⌘BSPC
+  - END
   - ⌥BSPC
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - MUTE
+  - PP
   - Mac
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {type: held}
-  - ⌘⇧4
-  - ⌘⇧5
-  - ⌘⌥ESC
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   Sym:
   - '!'
   - '@'
@@ -200,7 +200,7 @@ layers:
   - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - PP
+  - {t: ▽, type: trans}
   - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}

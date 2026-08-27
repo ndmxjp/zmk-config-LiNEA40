@@ -17,15 +17,16 @@ Generated from `config/LiNEA40.keymap` by
 
 ### How the modifiers are placed
 
-Ctrl sits on the **left** thumb and Cmd on the **right** thumb, because their
-common partners live on the opposite hand: `^P`, `^N`, `^H`, `^K` are
-right-hand letters, while `⌘C`, `⌘V`, `⌘X`, `⌘Z`, `⌘A`, `⌘S`, `⌘W`, `⌘Q`,
-`⌘T`, `⌘F` are left-hand letters. Every common chord therefore spans both
-hands.
+Ctrl sits on the **left** thumb, because its common partners are right-hand
+letters: `^P`, `^N`, `^H`, `^K`. Cmd wants the mirror of that — `⌘C`, `⌘V`,
+`⌘X`, `⌘Z`, `⌘A`, `⌘S`, `⌘W`, `⌘Q`, `⌘T`, `⌘F` are all left-hand — so it sits
+on the **right** hand, on the bottom-row middle finger. It gave the right thumb
+up to Enter: Cmd is held rather than tapped, so it tolerates the worse position
+and Enter, tapped once per conversion in Japanese, does not.
 
-Space, Ctrl, Cmd and both Shifts are plain keys. Hold-taps are confined to
-four keys that never appear mid-word: `Tab/Opt`, `Esc/Mac`, `Bspc/Nav` and
-`Enter/Mac`.
+Space, Enter, Ctrl, Cmd and both Shifts are plain keys. Only three keys carry a
+layer on their hold — `Tab/Opt`, `Bspc/Nav` and `Esc/Sym` — and the Mac layer
+has no key of its own at all: it comes up when Nav and Sym are held together.
 
 Shortcuts whose chord never varies get a single key on a layer instead of a
 layer-plus-modifier pile — Spotlight, input-source switch, `⌘1`–`⌘3`,
@@ -33,8 +34,11 @@ layer-plus-modifier pile — Spotlight, input-source switch, `⌘1`–`⌘3`,
 cursor chords (`^P` `^N` `^B` `^F` `^A` `^E` `^H` `^D` `^K`) stay real Ctrl
 chords, since they are used while typing.
 
-`^Space` is the one chord the layout cannot express directly — Ctrl and Space
-share the left thumb — so it is a combo on both left thumb keys at once.
+`^Space` cannot be pressed as a chord — Ctrl and Space share the left thumb —
+so it has its own key on the Nav layer. It was a combo on both thumb keys at
+first, which was a mistake: a key in a combo has its press captured, so every
+space was delayed, and a slightly wide thumb press switched the input source
+instead of typing one.
 
 ### Layers
 
@@ -42,7 +46,7 @@ share the left thumb — so it is a combo on both left thumb keys at once.
 |---|------|-----------|----------|
 | 0 | Base | — | US alpha block, `-` on the right pinky home key |
 | 1 | Mouse | trackball movement (`automouse-layer`) | click cluster on the right home row |
-| 2 | Nav | right thumb (Bspc) held | arrows, browser tabs, macOS spaces, app shortcuts |
+| 2 | Nav | right thumb (Bspc) held | arrows on `hjkl`, page/line jumps, app shortcuts |
 | 3 | Sym | left middle **or** right ring held | numbers and symbols; also `scroll-layers` |
 | 4 | Mac | Nav **and** Sym held together | F-keys, Bluetooth, bootloader |
 | 5 | Snipe | left index held on the Mouse layer | trackball precision (`snipe-layers`) |
@@ -54,6 +58,10 @@ left.
 The right pinky home key is `-` rather than `;`, because it types the Japanese
 long vowel mark and turns up about as often as a letter. `;` drops a row (Shift
 still gives `:`) and `/` lives on the Sym layer.
+
+The Nav arrows sit on `h j k l` — the keys and fingers Vim uses, h included as
+the index stretch. A thumb holds the layer, so the whole right hand stays free
+for them, and the left hand keeps the app shortcuts.
 
 Space and Enter both sit under a thumb, which is what Japanese input wants —
 space to convert, Enter to commit. Cmd took the bottom-row position Enter gave

@@ -244,30 +244,35 @@
 
         /*
          * Layer 2 -- held by the right thumb (Bspc). A thumb hold leaves the
-         * fingers of its own hand free, so this layer uses both halves and
-         * carries the app shortcuts that used to need a second Mac entry point.
+         * fingers of its own hand free, so the layer uses both halves: moving
+         * around on the right, firing things off on the left.
          *
-         *  Cmd-Alt-Lt  Ctrl-Lt  Ctrl-Up  Ctrl-Rt  Cmd-Alt-Rt   Cmd-1     Cmd-2    Cmd-3   Cmd-[     Cmd-]
-         *  Home        Left     Down     Up       Right        Ctrl-Spc  Cmd-Spc  Cmd-`   Cmd-Alt-I Del
-         *  End         PgDn     PgUp     Alt-Lt   Alt-Rt       Mute      Vol-     Vol+    Cmd-Bspc  Alt-Bspc
-         *                                                                        Cmd-Sft-4 Cmd-Sft-5 Cmd-Alt-Esc
+         *  Cmd-Alt-Lt Ctrl-Lt Ctrl-Up Ctrl-Rt Cmd-Alt-Rt   Alt-Lt Cmd-[ Cmd-]  Alt-Rt Del
+         *  Ctrl-Spc   Cmd-Spc Cmd-`   Cmd-Alt-I Cmd-Alt-Esc  Left   Down  Up     Right  Cmd-Bspc
+         *  Cmd-1      Cmd-2   Cmd-3   Cmd-Sft-4 Cmd-Sft-5    Home   PgDn  PgUp   End    Alt-Bspc
+         *  Mute       Play                                                             (encoder: volume)
          *
-         * Left top row is everything that moves a window or a tab: Mission
-         * Control in the middle, macOS spaces either side of it, browser tabs
-         * outermost. Right side is the fixed-chord app shortcuts.
+         * The arrows sit on h j k l, on the keys and under the fingers Vim uses
+         * -- including h as the index stretch. Around them the right hand grows
+         * coarser outwards: character moves on the home row, line and page jumps
+         * below, word moves and browser history above, the delete family down the
+         * pinky column.
+         *
+         * The left hand holds what does not move a caret: window and space
+         * switching on the top row, then the fixed-chord app shortcuts.
          *
          * Adding SYM on top of this reaches the Mac layer.
          */
         nav_layer {
             display-name = "Nav";
             bindings = <
-&kp LG(LA(LEFT))&kp LC(LEFT)   &kp LC(UP)      &kp LC(RIGHT)&kp LG(LA(RIGHT))  &kp LG(N1)         &kp LG(N2)          &kp LG(N3)   &kp LG(LBKT)     &kp LG(RBKT)
-&kp HOME     &kp LEFT       &kp DOWN        &kp UP       &kp RIGHT         &kp LC(SPACE)      &kp LG(SPACE)       &kp LG(GRAVE)&kp LG(LA(I))    &kp DEL
-&kp END      &kp PG_DN      &kp PG_UP       &kp LA(LEFT) &kp LA(RIGHT)     &kp C_MUTE         &kp C_VOL_DN        &kp C_VOL_UP &kp LG(BSPC)     &kp LA(BSPC)
-&trans       &trans         &mo L_MAC       &trans       &trans            &trans             &trans              &kp LG(LS(N4))&kp LG(LS(N5))   &kp LG(LA(ESC))
+&kp LG(LA(LEFT))&kp LC(LEFT)   &kp LC(UP)      &kp LC(RIGHT)&kp LG(LA(RIGHT))  &kp LA(LEFT)       &kp LG(LBKT)        &kp LG(RBKT) &kp LA(RIGHT)    &kp DEL
+&kp LC(SPACE)&kp LG(SPACE)  &kp LG(GRAVE)   &kp LG(LA(I))&kp LG(LA(ESC))   &kp LEFT           &kp DOWN            &kp UP       &kp RIGHT        &kp LG(BSPC)
+&kp LG(N1)   &kp LG(N2)     &kp LG(N3)      &kp LG(LS(N4))&kp LG(LS(N5))    &kp HOME           &kp PG_DN           &kp PG_UP    &kp END          &kp LA(BSPC)
+&kp C_MUTE   &kp C_PP       &mo L_MAC       &trans       &trans            &trans             &trans              &trans       &trans           &trans
             >;
 
-            sensor-bindings = <&kp_enc PG_DN PG_UP>;
+            sensor-bindings = <&kp_enc C_VOL_DN C_VOL_UP>;
         };
 
         /*
@@ -307,7 +312,7 @@
 &trans       &trans         &trans          &trans       &trans            &kp F1             &kp F2              &kp F3       &kp F4           &kp F5
 &trans       &trans         &trans          &trans       &trans            &kp F6             &kp F7              &kp F8       &kp F9           &kp F10
 &trans       &trans         &trans          &trans       &trans            &kp F11            &kp F12             &bt BT_SEL 0 &bt BT_SEL 1     &bt BT_CLR
-&bootloader  &studio_unlock &trans          &trans       &trans            &kp C_PP           &trans              &trans       &trans           &trans
+&bootloader  &studio_unlock &trans          &trans       &trans            &trans             &trans              &trans       &trans           &trans
             >;
 
             sensor-bindings = <&kp_enc C_VOL_DN C_VOL_UP>;
