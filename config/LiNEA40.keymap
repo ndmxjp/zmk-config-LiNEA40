@@ -7,8 +7,10 @@
  *          are left-hand ones, and Cmd is held rather than tapped, so it can
  *          afford the position Enter gave up. Japanese input taps Enter as often
  *          as Space, and both now sit under a thumb.
- *   Space, Enter, Ctrl, Cmd and both Shifts are plain &kp. Bspc is the only key
+ *   Space, Bspc, Ctrl, Cmd and both Shifts are plain &kp. Enter is the only key
  *   in the typing flow still carrying a layer, so it uses &lt_tap -- see below.
+ *   Bspc took the inner thumb key and gave up its layer: it is the one key you
+ *   genuinely want to hold, and a layer on the hold made that impossible.
  *
  * Layer numbers 1, 3 and 5 are also referenced by the PMW3610 trackball in
  * LiNEA40_right.overlay (automouse-layer / scroll-layers / snipe-layers).
@@ -43,14 +45,17 @@
  * the hold win as soon as another key is pressed and released, which is what a
  * layer key wants: hold it, press a symbol, get the symbol.
  *
- * &lt_tap is for keys whose TAP is the common action -- Bspc and the F that
- * reaches snipe mode. Those sit in the middle of typing, and "balanced"
- * alone breaks them: press Bspc, roll into the next letter before releasing it,
- * and decide_balanced() calls that HOLD_INTERRUPT -- the delete never happens
- * and the letter comes off the Nav layer instead. require-prior-idle-ms settles
- * the key as a tap outright when it follows another keypress closely, so these
- * always type while the hands are moving, and holding one still reaches its
- * layer once the typing pauses.
+ * &lt_tap is for keys whose TAP is the common action -- Enter and the F that
+ * reaches snipe mode. Those sit in the middle of typing, and "balanced" alone
+ * breaks them: press one, roll into the next key before releasing it, and
+ * decide_balanced() calls that HOLD_INTERRUPT -- the tap never happens and the
+ * next key comes off the wrong layer. require-prior-idle-ms settles the key as a
+ * tap outright when it follows another keypress closely, so it types while the
+ * hands are moving, and holding it still reaches its layer once typing pauses.
+ *
+ * The residue -- hold it after a pause and you get the layer, not a repeat --
+ * costs nothing on Enter, which is never held. It is why Nav sits here and not
+ * on Bspc, where holding to repeat a delete is the whole point.
  */
 
 &lt {
@@ -197,12 +202,12 @@
         /*
          * 40 keys. The bottom row carries five per half: the encoder occupies
          * the position between SYM and Space on the left, and the trackball the
-         * one between Bspc and Cmd on the right. Neither is in the layout.
+         * one between Enter and Cmd on the right. Neither is in the layout.
          *
          *  Q      W      E      R      T                  Y      U      I      O      P
          *  A      S      D      F      G                  H      J      K      L      -
          *  Z      X      C      V      B                  N      M      ,      .      /
-         *  Shift  Tab    SYM   (enc) Space Ctrl   Enter   Bspc  (ball)  Cmd    Esc    Shift
+         *  Shift  Tab    SYM   (enc) Space Ctrl   Bspc   Enter  (ball)  Cmd    Esc    Shift
          *         (Alt)                                         (NAV)                (SYM)
          *
          * Twenty-six letters plus "," and "." fill 28 of the 30 alpha keys, so the
@@ -218,7 +223,7 @@
 &kp Q        &kp W          &kp E           &kp R        &kp T             &kp Y              &kp U               &kp I        &kp O            &kp P
 &kp A        &kp S          &kp D           &kp F        &kp G             &kp H              &kp J               &kp K        &kp L            &kp MINUS
 &kp Z        &kp X          &kp C           &kp V        &kp B             &kp N              &kp M               &kp COMMA    &kp DOT          &kp SLASH
-&kp LSHFT    &mt LALT TAB   &mo L_SYM       &kp SPACE    &kp LCTRL         &kp ENTER          &lt_tap L_NAV BSPC  &kp LGUI     &lt L_SYM ESC    &kp RSHFT
+&kp LSHFT    &mt LALT TAB   &mo L_SYM       &kp SPACE    &kp LCTRL         &kp BSPC           &lt_tap L_NAV ENTER &kp LGUI     &lt L_SYM ESC    &kp RSHFT
             >;
 
             sensor-bindings = <&scrl_enc SCRL_DOWN SCRL_UP>;
@@ -246,7 +251,7 @@
         };
 
         /*
-         * Layer 2 -- held by the right thumb (Bspc). A thumb hold leaves the
+         * Layer 2 -- held by the right thumb (Enter). A thumb hold leaves the
          * fingers of its own hand free, so the layer uses both halves: moving
          * around on the right, firing things off on the left.
          *

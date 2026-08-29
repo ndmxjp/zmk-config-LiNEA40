@@ -21,12 +21,17 @@ Ctrl sits on the **left** thumb, because its common partners are right-hand
 letters: `^P`, `^N`, `^H`, `^K`. Cmd wants the mirror of that — `⌘C`, `⌘V`,
 `⌘X`, `⌘Z`, `⌘A`, `⌘S`, `⌘W`, `⌘Q`, `⌘T`, `⌘F` are all left-hand — so it sits
 on the **right** hand, on the bottom-row middle finger. It gave the right thumb
-up to Enter: Cmd is held rather than tapped, so it tolerates the worse position
-and Enter, tapped once per conversion in Japanese, does not.
+up to Bspc and Enter: Cmd is held rather than tapped, so it tolerates the worse
+position, and those two — one per conversion in Japanese — do not.
 
-Space, Enter, Ctrl, Cmd and both Shifts are plain keys. Only three keys carry a
-layer on their hold — `Tab/Opt`, `Bspc/Nav` and `Esc/Sym` — and the Mac layer
+Space, Bspc, Ctrl, Cmd and both Shifts are plain keys. Only three keys carry a
+layer on their hold — `Tab/Opt`, `Enter/Nav` and `Esc/Sym` — and the Mac layer
 has no key of its own at all: it comes up when Nav and Sym are held together.
+
+Nav rides on Enter rather than Bspc, and Bspc takes the easier inner thumb key.
+Holding one of these keys after a pause gives its layer rather than a repeat,
+which costs nothing on Enter — nobody holds it — but broke Bspc, where holding
+to repeat a delete is the whole point.
 
 Shortcuts whose chord never varies get a single key on a layer instead of a
 layer-plus-modifier pile — Spotlight, input-source switch, `⌘1`–`⌘3`,
@@ -46,7 +51,7 @@ instead of typing one.
 |---|------|-----------|----------|
 | 0 | Base | — | US alpha block, `-` and `/` on the right pinky column |
 | 1 | Mouse | trackball movement (`automouse-layer`) | click cluster on the right home row |
-| 2 | Nav | right thumb (Bspc) held | arrows on `hjkl`, page/line jumps, app shortcuts |
+| 2 | Nav | right thumb (Enter) held | arrows on `hjkl`, page/line jumps, app shortcuts |
 | 3 | Sym | left middle **or** right ring held | numbers and symbols; also `scroll-layers` |
 | 4 | Mac | Nav **and** Sym held together | F-keys, Bluetooth, bootloader |
 | 5 | Snipe | left index held on the Mouse layer | trackball precision (`snipe-layers`) |
@@ -66,9 +71,10 @@ The Nav arrows sit on `h j k l` — the keys and fingers Vim uses, h included as
 the index stretch. A thumb holds the layer, so the whole right hand stays free
 for them, and the left hand keeps the app shortcuts.
 
-Space and Enter both sit under a thumb, which is what Japanese input wants —
-space to convert, Enter to commit. Cmd took the bottom-row position Enter gave
-up: it is held rather than tapped, so it tolerates the worse spot.
+Space, Bspc and Enter all sit under a thumb, which is what Japanese input wants
+— space to convert, Enter to commit, Bspc to fix. Cmd took the bottom-row
+position they needed: it is held rather than tapped, so it tolerates the worse
+spot.
 
 Layers 1, 3 and 5 are also referenced by the trackball in
 `config/boards/shields/LiNEA40/LiNEA40_right.overlay`; keep the two in sync

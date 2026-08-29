@@ -36,8 +36,8 @@ layers:
   - Sym
   - SPACE
   - CTRL
-  - ENTER
-  - {t: BSPC, h: Nav}
+  - BSPC
+  - {t: ENTER, h: Nav}
   - CMD
   - {t: ESC, h: Sym}
   - SHIFT
