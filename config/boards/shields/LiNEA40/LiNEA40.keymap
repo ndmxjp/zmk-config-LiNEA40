@@ -254,33 +254,40 @@
         };
 
         /*
-         * Layer 2 -- held by the right thumb (Enter). A thumb hold leaves the
-         * fingers of its own hand free, so the layer uses both halves: moving
-         * around on the right, firing things off on the left.
+         * Layer 2 -- held by the right thumb (Enter). A thumb hold leaves all ten
+         * fingers free, so this layer too can carry a full row across the top.
          *
-         *  Cmd-Alt-Lt Ctrl-Lt Ctrl-Up Ctrl-Rt Cmd-Alt-Rt   Alt-Lt Cmd-[ Cmd-]  Alt-Rt Del
-         *  Ctrl-Spc   Cmd-Spc Cmd-`   Cmd-Alt-I Cmd-Alt-Esc  Left   Down  Up     Right  Cmd-Bspc
-         *  Cmd-1      Cmd-2   Cmd-3   Cmd-Sft-4 Cmd-Sft-5    Home   PgDn  PgUp   End    Alt-Bspc
-         *  Mute       Play                                                             (encoder: volume)
+         *  !        @       #       $        %          ^     &     *     (      )
+         *  Ctrl-Spc Cmd-Spc Ctrl-Lt Ctrl-Up  Ctrl-Rt    Left  Down  Up    Right  Cmd-Bspc
+         *  Cmd-1    Cmd-2   Cmd-3   Cmd-Alt-Lt Cmd-Alt-Rt Home PgDn  PgUp  End    Alt-Bspc
+         *           Alt-Lt  Alt-Rt  (MAC)                                  Del
+         *                                                        (encoder: volume)
+         *
+         * The top row is the shifted number row, in the same columns as the
+         * digits on Num: hold the left thumb for a digit, the right thumb for the
+         * symbol above it. Num keeps its own copy one row down, so either thumb
+         * can reach them.
          *
          * The arrows sit on h j k l, on the keys and under the fingers Vim uses
-         * -- including h as the index stretch. Around them the right hand grows
-         * coarser outwards: character moves on the home row, line and page jumps
-         * below, word moves and browser history above, the delete family down the
-         * pinky column.
+         * -- including h as the index stretch. Line and page jumps sit below,
+         * the delete family on the right of the bottom two rows.
          *
-         * The left hand holds what does not move a caret: window and space
-         * switching on the top row, then the fixed-chord app shortcuts.
+         * Shift and Cmd stay transparent here: shift-arrow and cmd-shift-arrow
+         * have to keep selecting text.
+         *
+         * What the symbol row displaced -- screenshots, DevTools, force quit,
+         * browser history, same-app window switching, mute and play -- moved to
+         * the Mac layer, whose left hand was empty.
          *
          * Adding Num on top of this reaches the Mac layer -- both thumbs down.
          */
         nav_layer {
             display-name = "Nav";
             bindings = <
-&kp LG(LA(LEFT))&kp LC(LEFT)   &kp LC(UP)      &kp LC(RIGHT)&kp LG(LA(RIGHT))  &kp LA(LEFT)       &kp LG(LBKT)        &kp LG(RBKT) &kp LA(RIGHT)    &kp DEL
-&kp LC(SPACE)&kp LG(SPACE)  &kp LG(GRAVE)   &kp LG(LA(I))&kp LG(LA(ESC))   &kp LEFT           &kp DOWN            &kp UP       &kp RIGHT        &kp LG(BSPC)
-&kp LG(N1)   &kp LG(N2)     &kp LG(N3)      &kp LG(LS(N4))&kp LG(LS(N5))    &kp HOME           &kp PG_DN           &kp PG_UP    &kp END          &kp LA(BSPC)
-&kp C_MUTE   &kp C_PP       &trans          &mo L_MAC    &trans            &trans             &trans              &trans       &trans           &trans
+&kp EXCL     &kp AT         &kp HASH        &kp DLLR     &kp PRCNT         &kp CARET          &kp AMPS            &kp ASTRK    &kp LPAR         &kp RPAR
+&kp LC(SPACE)&kp LG(SPACE)  &kp LC(LEFT)    &kp LC(UP)   &kp LC(RIGHT)     &kp LEFT           &kp DOWN            &kp UP       &kp RIGHT        &kp LG(BSPC)
+&kp LG(N1)   &kp LG(N2)     &kp LG(N3)      &kp LG(LA(LEFT))&kp LG(LA(RIGHT))  &kp HOME           &kp PG_DN           &kp PG_UP    &kp END          &kp LA(BSPC)
+&trans       &kp LA(LEFT)   &kp LA(RIGHT)   &mo L_MAC    &trans            &trans             &trans              &trans       &kp DEL          &trans
             >;
 
             sensor-bindings = <&kp_enc C_VOL_DN C_VOL_UP>;
@@ -314,14 +321,16 @@
 
         /*
          * Layer 4 -- reached by holding both thumb keys, Space and Enter, in
-         * either order. F-keys and pairing are rare enough to live behind a
-         * two-key hold, and holding thumbs leaves every finger free.
+         * either order. Holding thumbs leaves every finger free, so both halves
+         * are usable: F-keys and pairing on the right, and on the left the
+         * occasional app shortcuts that the Nav symbol row pushed out of Nav.
+         * All of it is rare enough to live behind a two-key hold.
          */
         mac_layer {
             display-name = "Mac";
             bindings = <
-&trans       &trans         &trans          &trans       &trans            &kp F1             &kp F2              &kp F3       &kp F4           &kp F5
-&trans       &trans         &trans          &trans       &trans            &kp F6             &kp F7              &kp F8       &kp F9           &kp F10
+&kp LG(LBKT) &kp LG(RBKT)   &kp LG(GRAVE)   &kp LG(LA(I))&kp LG(LA(ESC))   &kp F1             &kp F2              &kp F3       &kp F4           &kp F5
+&kp LG(LS(N4))&kp LG(LS(N5)) &kp C_MUTE      &kp C_PP     &trans            &kp F6             &kp F7              &kp F8       &kp F9           &kp F10
 &trans       &trans         &trans          &trans       &trans            &kp F11            &kp F12             &bt BT_SEL 0 &bt BT_SEL 1     &bt BT_CLR
 &bootloader  &studio_unlock &trans          &trans       &trans            &trans             &trans              &trans       &trans           &trans
             >;

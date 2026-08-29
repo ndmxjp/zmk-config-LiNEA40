@@ -54,9 +54,9 @@ instead of typing one.
 |---|------|-----------|----------|
 | 0 | Base | — | US alpha block, `-` and `/` on the right pinky column |
 | 1 | Mouse | trackball movement (`automouse-layer`) | click cluster on the right home row |
-| 2 | Nav | right thumb (Enter) held | arrows on `hjkl`, page/line jumps, app shortcuts |
+| 2 | Nav | right thumb (Enter) held | symbol row, arrows on `hjkl`, page/line jumps |
 | 3 | Num | left thumb (Space) held | number row, symbols beneath it; also `scroll-layers` |
-| 4 | Mac | both thumbs held together | F-keys, Bluetooth, bootloader |
+| 4 | Mac | both thumbs held together | F-keys, Bluetooth, bootloader, occasional app shortcuts |
 | 5 | Snipe | left index held on the Mouse layer | trackball precision (`snipe-layers`) |
 
 The Num layer is a real number row. A thumb holds it, so the digits span both
@@ -79,9 +79,17 @@ a letter — and `/` the other. `;` is the one that loses: it and `:` sit on the
 Num layer next to each other, so each is a thumb hold plus a key rather than a
 hold plus Shift plus a key. `_` needs no key of its own, being Shift and `-`.
 
+Nav's top row is the shifted number row, in the same columns as Num's digits:
+hold the **left** thumb for a digit, the **right** thumb for the symbol above
+it. Num keeps its own copy one row down, so either thumb reaches them. What the
+symbol row displaced — screenshots, DevTools, force quit, browser history,
+same-app window switching, mute and play — moved to the Mac layer, whose left
+hand was empty.
+
 The Nav arrows sit on `h j k l` — the keys and fingers Vim uses, h included as
 the index stretch. A thumb holds the layer, so the whole right hand stays free
-for them, and the left hand keeps the app shortcuts.
+for them. Shift and Cmd stay transparent on Nav so that shift-arrow and
+cmd-shift-arrow keep selecting text.
 
 Space, Bspc and Enter all sit under a thumb, which is what Japanese input wants
 — space to convert, Enter to commit, Bspc to fix. Cmd took the bottom-row

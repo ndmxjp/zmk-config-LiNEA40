@@ -83,21 +83,21 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   Nav:
-  - ⌘⌥←
+  - '!'
+  - '@'
+  - '#'
+  - $
+  - '%'
+  - ^
+  - '&'
+  - '*'
+  - (
+  - )
+  - ⌃SPACE
+  - ⌘SPACE
   - ⌃←
   - ⌃↑
   - ⌃→
-  - ⌘⌥→
-  - ⌥←
-  - ⌘[
-  - ⌘]
-  - ⌥→
-  - DEL
-  - ⌃SPACE
-  - ⌘SPACE
-  - ⌘`
-  - ⌘⌥I
-  - ⌘⌥ESC
   - ←
   - ↓
   - ↑
@@ -106,22 +106,22 @@ layers:
   - ⌘1
   - ⌘2
   - ⌘3
-  - ⌘⇧4
-  - ⌘⇧5
+  - ⌘⌥←
+  - ⌘⌥→
   - HOME
   - PG DN
   - PG UP
   - END
   - ⌥BSPC
-  - MUTE
-  - PP
   - {t: ▽, type: trans}
+  - ⌥←
+  - ⌥→
   - Mac
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {type: held}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - DEL
   - {t: ▽, type: trans}
   Num:
   - '1'
@@ -165,20 +165,20 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   Mac:
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ⌘[
+  - ⌘]
+  - ⌘`
+  - ⌘⌥I
+  - ⌘⌥ESC
   - F1
   - F2
   - F3
   - F4
   - F5
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ⌘⇧4
+  - ⌘⇧5
+  - MUTE
+  - PP
   - {t: ▽, type: trans}
   - F6
   - F7
