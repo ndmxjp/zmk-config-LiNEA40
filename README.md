@@ -86,6 +86,13 @@ symbol row displaced — screenshots, DevTools, force quit, browser history,
 same-app window switching, mute and play — moved to the Mac layer, whose left
 hand was empty.
 
+The Mouse layer is the one layer no key can dismiss: `pmw3610.c` deactivates it
+from a `k_timer` and nowhere else, so it stays on for
+`CONFIG_PMW3610_AUTOMOUSE_TIMEOUT_MS` after the ball stops moving — and it puts
+mouse buttons on the right home row. That window is time in which `h`, `j`, `k`
+or `l` comes out as a click, which is why the timeout is kept short (400ms)
+rather than generous.
+
 The Nav arrows sit on `h j k l` — the keys and fingers Vim uses, h included as
 the index stretch. A thumb holds the layer, so the whole right hand stays free
 for them. Shift and Cmd stay transparent on Nav so that shift-arrow and
