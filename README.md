@@ -24,14 +24,17 @@ on the **right** hand, on the bottom-row middle finger. It gave the right thumb
 up to Bspc and Enter: Cmd is held rather than tapped, so it tolerates the worse
 position, and those two — one per conversion in Japanese — do not.
 
-Space, Bspc, Ctrl, Cmd and both Shifts are plain keys. Only three keys carry a
-layer on their hold — `Tab/Opt`, `Enter/Nav` and `Esc/Sym` — and the Mac layer
-has no key of its own at all: it comes up when Nav and Sym are held together.
+Bspc, Ctrl, Cmd, Tab, Alt, Esc and both Shifts are plain keys. Only two keys
+carry a layer, and both are the ones a thumb rests on: **Space holds Num** and
+**Enter holds Nav**. Holding both gives Mac.
 
-Nav rides on Enter rather than Bspc, and Bspc takes the easier inner thumb key.
-Holding one of these keys after a pause gives its layer rather than a repeat,
-which costs nothing on Enter — nobody holds it — but broke Bspc, where holding
-to repeat a delete is the whole point.
+That is what lets Num and Nav put a full ten-key row under the fingers — a
+thumb hold leaves all ten free, where a finger-held layer key blocks its own
+column. It is also why `Tab`, `Alt` and `Esc` got plain keys back.
+
+Nav rides on Enter rather than Bspc. Holding one of these keys after a pause
+gives its layer rather than a repeat, which costs nothing on Enter — nobody
+holds it — but broke Bspc, where holding to repeat a delete is the whole point.
 
 Shortcuts whose chord never varies get a single key on a layer instead of a
 layer-plus-modifier pile — Spotlight, input-source switch, `⌘1`–`⌘3`,
@@ -52,19 +55,28 @@ instead of typing one.
 | 0 | Base | — | US alpha block, `-` and `/` on the right pinky column |
 | 1 | Mouse | trackball movement (`automouse-layer`) | click cluster on the right home row |
 | 2 | Nav | right thumb (Enter) held | arrows on `hjkl`, page/line jumps, app shortcuts |
-| 3 | Sym | left middle **or** right ring held | numbers and symbols; also `scroll-layers` |
-| 4 | Mac | Nav **and** Sym held together | F-keys, Bluetooth, bootloader |
+| 3 | Num | left thumb (Space) held | number row, symbols beneath it; also `scroll-layers` |
+| 4 | Mac | both thumbs held together | F-keys, Bluetooth, bootloader |
 | 5 | Snipe | left index held on the Mouse layer | trackball precision (`snipe-layers`) |
 
-Layer 3 has two entry points, one per hand, so it shows different halves
-depending on which hand holds it — brackets from the right, numbers from the
-left.
+The Num layer is a real number row. A thumb holds it, so the digits span both
+hands across the top, their shifted forms line up column for column directly
+beneath, and the leftovers sit on a third row:
+
+```
+1  2  3  4  5      6  7  8  9  0
+!  @  #  $  %      ^  &  *  (  )
+`  =  \  [  ]      {  }  ;  :  '
+```
+
+Shift covers what is left: `~` from `` ` ``, `+` from `=`, `|` from `\`, `"`
+from `'`, and on the base layer `_` from `-` and `?` from `/`.
 
 Twenty-six letters plus `,` and `.` fill 28 of the 30 alpha keys, so the right
 pinky column has exactly two slots for punctuation and three candidates. `-`
 takes one — it types the Japanese long vowel mark and turns up about as often as
 a letter — and `/` the other. `;` is the one that loses: it and `:` sit on the
-Sym layer's own right pinky column, so each is a hold plus a key rather than a
+Num layer next to each other, so each is a thumb hold plus a key rather than a
 hold plus Shift plus a key. `_` needs no key of its own, being Shift and `-`.
 
 The Nav arrows sit on `h j k l` — the keys and fingers Vim uses, h included as
@@ -75,6 +87,11 @@ Space, Bspc and Enter all sit under a thumb, which is what Japanese input wants
 — space to convert, Enter to commit, Bspc to fix. Cmd took the bottom-row
 position they needed: it is held rather than tapped, so it tolerates the worse
 spot.
+
+Space being a layer-tap is the one place the layout accepts real risk, and it
+uses `tap-preferred` for it: no other keypress can turn its tap into a hold, so
+a space never goes missing however fast the next letter follows. The trade is
+that reaching Num means holding Space for the full tapping term.
 
 Layers 1, 3 and 5 are also referenced by the trackball in
 `config/boards/shields/LiNEA40/LiNEA40_right.overlay`; keep the two in sync

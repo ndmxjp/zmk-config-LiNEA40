@@ -7,10 +7,11 @@
  *          are left-hand ones, and Cmd is held rather than tapped, so it can
  *          afford the position Enter gave up. Japanese input taps Enter as often
  *          as Space, and both now sit under a thumb.
- *   Space, Bspc, Ctrl, Cmd and both Shifts are plain &kp. Enter is the only key
- *   in the typing flow still carrying a layer, so it uses &lt_tap -- see below.
- *   Bspc took the inner thumb key and gave up its layer: it is the one key you
- *   genuinely want to hold, and a layer on the hold made that impossible.
+ *   Bspc, Ctrl, Cmd, Tab, Alt, Esc and both Shifts are plain &kp. The only two
+ *   keys carrying a layer are the ones a thumb rests on: Space holds Num and
+ *   Enter holds Nav. Holding both together gives Mac.
+ *   Bspc gave up its layer deliberately: it is the one key you genuinely want to
+ *   hold down, and a layer on the hold made that impossible.
  *
  * Layer numbers 1, 3 and 5 are also referenced by the PMW3610 trackball in
  * LiNEA40_right.overlay (automouse-layer / scroll-layers / snipe-layers).
@@ -34,40 +35,29 @@
 #define L_BASE  0
 #define L_MOUSE 1   /* automouse-layer -- trackball moves */
 #define L_NAV   2
-#define L_SYM   3   /* scroll-layers   -- trackball scrolls */
+#define L_NUM   3   /* scroll-layers   -- trackball scrolls */
 #define L_MAC   4
 #define L_SNIPE 5   /* snipe-layers    -- trackball precision */
 
 /*
- * Two kinds of layer-tap, split by which half of the key gets used more.
+ * Two layer-taps, tuned differently because their taps fail differently.
  *
- * &lt is for keys whose HOLD is the common action -- Esc/SYM. "balanced" makes
- * the hold win as soon as another key is pressed and released, which is what a
- * layer key wants: hold it, press a symbol, get the symbol.
+ * &lt_tap carries Enter and the F that reaches snipe mode. "balanced" alone
+ * breaks a key like that: press it, roll into the next key before releasing it,
+ * and decide_balanced() calls that HOLD_INTERRUPT -- the tap never happens and
+ * the next key comes off the wrong layer. require-prior-idle-ms settles the key
+ * as a tap outright when it follows another keypress closely, so it types while
+ * the hands are moving, and its layer is still one hold away once typing pauses.
+ * The residue -- hold after a pause and you get the layer, not a repeat -- costs
+ * nothing on Enter, which nobody holds.
  *
- * &lt_tap is for keys whose TAP is the common action -- Enter and the F that
- * reaches snipe mode. Those sit in the middle of typing, and "balanced" alone
- * breaks them: press one, roll into the next key before releasing it, and
- * decide_balanced() calls that HOLD_INTERRUPT -- the tap never happens and the
- * next key comes off the wrong layer. require-prior-idle-ms settles the key as a
- * tap outright when it follows another keypress closely, so it types while the
- * hands are moving, and holding it still reaches its layer once typing pauses.
- *
- * The residue -- hold it after a pause and you get the layer, not a repeat --
- * costs nothing on Enter, which is never held. It is why Nav sits here and not
- * on Bspc, where holding to repeat a delete is the whole point.
+ * &lt_spc carries Space, and cannot use that trick: require-prior-idle-ms would
+ * make Num unreachable in the middle of typing, which is exactly when a digit is
+ * wanted. "tap-preferred" instead: no other keypress can turn the tap into a
+ * hold, only the tapping term can, so a space never goes missing however fast
+ * the next letter follows. The cost is that reaching Num means holding Space for
+ * the full term rather than pressing through it.
  */
-
-&lt {
-    flavor = "balanced";
-    tapping-term-ms = <200>;
-    quick-tap-ms = <175>;
-};
-
-&mt {
-    flavor = "tap-preferred";
-    tapping-term-ms = <200>;
-};
 
 /* Pointer movement (mouse keys) */
 
@@ -108,13 +98,13 @@
     };
 };
 
-/* SYM held -> trackball scrolls instead of moving the pointer.
- * SYM is reachable from the left middle finger, which keeps the whole right
- * hand free for the ball. Y is inverted to match macOS natural scrolling. */
+/* NUM held -> trackball scrolls instead of moving the pointer. NUM is the left
+ * thumb, so the whole right hand stays free for the ball. Y is inverted to match
+ * macOS natural scrolling. */
 
 &trackball_listener {
     scroller {
-        layers = <L_SYM>;
+        layers = <L_NUM>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
             <&zip_xy_to_scroll_mapper>;
@@ -130,6 +120,15 @@
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
             require-prior-idle-ms = <150>;
+            bindings = <&mo>, <&kp>;
+        };
+
+        lt_spc: layer_tap_on_space {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
             bindings = <&mo>, <&kp>;
         };
 
@@ -201,21 +200,25 @@
 
         /*
          * 40 keys. The bottom row carries five per half: the encoder occupies
-         * the position between SYM and Space on the left, and the trackball the
+         * the position between Alt and Space on the left, and the trackball the
          * one between Enter and Cmd on the right. Neither is in the layout.
          *
          *  Q      W      E      R      T                  Y      U      I      O      P
          *  A      S      D      F      G                  H      J      K      L      -
          *  Z      X      C      V      B                  N      M      ,      .      /
-         *  Shift  Tab    SYM   (enc) Space Ctrl   Bspc   Enter  (ball)  Cmd    Esc    Shift
-         *         (Alt)                                         (NAV)                (SYM)
+         *  Shift  Tab    Alt   (enc) Space Ctrl   Bspc   Enter  (ball)  Cmd    Esc    Shift
+         *                            (NUM)                     (NAV)
+         *
+         * Only the two thumb keys hold layers, which is what lets Num and Nav put
+         * a full ten-key row under the fingers: a thumb hold leaves all ten free,
+         * where the old left-middle Sym key blocked its own column.
          *
          * Twenty-six letters plus "," and "." fill 28 of the 30 alpha keys, so the
          * right pinky column has exactly two slots for punctuation and there are
          * three candidates. "-" holds one because it types the Japanese long vowel
          * mark, which turns up about as often as a letter, and "/" the other. ";"
-         * is the one that loses; it and ":" sit on the Sym layer's own right pinky
-         * column, one hold away rather than behind a Shift as well.
+         * is the one that loses; it and ":" sit next to each other on the Num
+         * layer, a thumb hold plus a key rather than a hold plus Shift as well.
          */
         base_layer {
             display-name = "Base";
@@ -223,7 +226,7 @@
 &kp Q        &kp W          &kp E           &kp R        &kp T             &kp Y              &kp U               &kp I        &kp O            &kp P
 &kp A        &kp S          &kp D           &kp F        &kp G             &kp H              &kp J               &kp K        &kp L            &kp MINUS
 &kp Z        &kp X          &kp C           &kp V        &kp B             &kp N              &kp M               &kp COMMA    &kp DOT          &kp SLASH
-&kp LSHFT    &mt LALT TAB   &mo L_SYM       &kp SPACE    &kp LCTRL         &kp BSPC           &lt_tap L_NAV ENTER &kp LGUI     &lt L_SYM ESC    &kp RSHFT
+&kp LSHFT    &kp TAB        &kp LALT        &lt_spc L_NUM SPACE&kp LCTRL         &kp BSPC           &lt_tap L_NAV ENTER &kp LGUI     &kp ESC          &kp RSHFT
             >;
 
             sensor-bindings = <&scrl_enc SCRL_DOWN SCRL_UP>;
@@ -269,7 +272,7 @@
          * The left hand holds what does not move a caret: window and space
          * switching on the top row, then the fixed-chord app shortcuts.
          *
-         * Adding SYM on top of this reaches the Mac layer.
+         * Adding Num on top of this reaches the Mac layer -- both thumbs down.
          */
         nav_layer {
             display-name = "Nav";
@@ -277,42 +280,42 @@
 &kp LG(LA(LEFT))&kp LC(LEFT)   &kp LC(UP)      &kp LC(RIGHT)&kp LG(LA(RIGHT))  &kp LA(LEFT)       &kp LG(LBKT)        &kp LG(RBKT) &kp LA(RIGHT)    &kp DEL
 &kp LC(SPACE)&kp LG(SPACE)  &kp LG(GRAVE)   &kp LG(LA(I))&kp LG(LA(ESC))   &kp LEFT           &kp DOWN            &kp UP       &kp RIGHT        &kp LG(BSPC)
 &kp LG(N1)   &kp LG(N2)     &kp LG(N3)      &kp LG(LS(N4))&kp LG(LS(N5))    &kp HOME           &kp PG_DN           &kp PG_UP    &kp END          &kp LA(BSPC)
-&kp C_MUTE   &kp C_PP       &mo L_MAC       &trans       &trans            &trans             &trans              &trans       &trans           &trans
+&kp C_MUTE   &kp C_PP       &trans          &mo L_MAC    &trans            &trans             &trans              &trans       &trans           &trans
             >;
 
             sensor-bindings = <&kp_enc C_VOL_DN C_VOL_UP>;
         };
 
         /*
-         * Layer 3 -- two entry points, so either hand can hold it:
-         *   left index (x3)  -> right hand free  -> numbers and operators
-         *   right ring (x11) -> left hand free   -> brackets and punctuation
+         * Layer 3 -- held by the left thumb (Space), which leaves every finger
+         * free, so the digits sit in a real number row across both hands and
+         * their shifted forms line up directly underneath, column for column.
          *
-         * US layout, so Shift covers the rest: ~ from `, " from ', ? from /,
-         * : from ;. Only the pairs that matter in code get an explicit key.
+         *  1  2  3  4  5      6  7  8  9  0
+         *  !  @  #  $  %      ^  &  *  (  )
+         *  `  =  \  [  ]      {  }  ;  :  '
+         *
+         * US layout, so Shift covers what is left over: ~ from `, + from =,
+         * | from \, " from ', and on the base layer _ from - and ? from /.
          *
          * Adding Nav on top of this reaches the Mac layer.
          */
-        sym_layer {
-            display-name = "Sym";
+        num_layer {
+            display-name = "Num";
             bindings = <
-&kp EXCL     &kp AT         &kp HASH        &kp DLLR     &kp PRCNT         &kp GRAVE          &kp N7              &kp N8       &kp N9           &kp COLON
-&kp LBRC     &kp RBRC       &kp LPAR        &kp RPAR     &kp SQT           &kp AMPS           &kp N4              &kp N5       &kp N6           &kp SEMI
-&kp LBKT     &kp RBKT       &kp LT          &kp GT       &kp ASTRK         &kp PIPE           &kp N1              &kp N2       &kp N3           &kp PLUS
-&trans       &trans         &trans          &trans       &trans            &kp N0             &mo L_MAC           &kp EQUAL    &trans           &trans
+&kp N1       &kp N2         &kp N3          &kp N4       &kp N5            &kp N6             &kp N7              &kp N8       &kp N9           &kp N0
+&kp EXCL     &kp AT         &kp HASH        &kp DLLR     &kp PRCNT         &kp CARET          &kp AMPS            &kp ASTRK    &kp LPAR         &kp RPAR
+&kp GRAVE    &kp EQUAL      &kp BSLH        &kp LBKT     &kp RBKT          &kp LBRC           &kp RBRC            &kp SEMI     &kp COLON        &kp SQT
+&trans       &trans         &trans          &trans       &trans            &trans             &mo L_MAC           &trans       &trans           &trans
             >;
 
             sensor-bindings = <&kp_enc LG(Z) LG(LS(Z))>;
         };
 
         /*
-         * Layer 4 -- reached by holding Nav and Sym together, in either order.
-         * Enter used to carry it, but Enter is tapped far too often to sit on a
-         * hold, and nothing else on the base layer was free. F-keys and pairing
-         * are rare enough to live behind a two-key hold.
-         *
-         * Those two holds occupy the right thumb and the left middle finger, so
-         * the contents sit on the right hand, whose fingers are all free.
+         * Layer 4 -- reached by holding both thumb keys, Space and Enter, in
+         * either order. F-keys and pairing are rare enough to live behind a
+         * two-key hold, and holding thumbs leaves every finger free.
          */
         mac_layer {
             display-name = "Mac";

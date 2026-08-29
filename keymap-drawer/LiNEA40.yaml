@@ -32,14 +32,14 @@ layers:
   - .
   - /
   - SHIFT
-  - {t: TAB, h: OPT}
-  - Sym
-  - SPACE
+  - TAB
+  - OPT
+  - {t: SPACE, h: Num}
   - CTRL
   - BSPC
   - {t: ENTER, h: Nav}
   - CMD
-  - {t: ESC, h: Sym}
+  - ESC
   - SHIFT
   Mouse:
   - {t: ▽, type: trans}
@@ -115,53 +115,53 @@ layers:
   - ⌥BSPC
   - MUTE
   - PP
-  - Mac
   - {t: ▽, type: trans}
+  - Mac
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  Sym:
+  Num:
+  - '1'
+  - '2'
+  - '3'
+  - '4'
+  - '5'
+  - '6'
+  - '7'
+  - '8'
+  - '9'
+  - '0'
   - '!'
   - '@'
   - '#'
   - $
   - '%'
-  - '`'
-  - '7'
-  - '8'
-  - '9'
-  - ':'
-  - '{'
-  - '}'
+  - ^
+  - '&'
+  - '*'
   - (
   - )
-  - ''''
-  - '&'
-  - '4'
-  - '5'
-  - '6'
-  - ;
+  - '`'
+  - '='
+  - \
   - '['
   - ']'
-  - <
-  - '>'
-  - '*'
-  - '|'
-  - '1'
-  - '2'
-  - '3'
-  - +
+  - '{'
+  - '}'
+  - ;
+  - ':'
+  - ''''
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - '0'
   - Mac
-  - '='
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   Mac:
@@ -197,8 +197,8 @@ layers:
   - BT CLR
   - Boot
   - Studio
-  - {type: held}
   - {t: ▽, type: trans}
+  - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {type: held}
