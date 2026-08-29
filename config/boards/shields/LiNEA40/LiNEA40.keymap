@@ -201,20 +201,23 @@
          *
          *  Q      W      E      R      T                  Y      U      I      O      P
          *  A      S      D      F      G                  H      J      K      L      -
-         *  Z      X      C      V      B                  N      M      ,      .      ;
+         *  Z      X      C      V      B                  N      M      ,      .      /
          *  Shift  Tab    SYM   (enc) Space Ctrl   Enter   Bspc  (ball)  Cmd    Esc    Shift
          *         (Alt)                                         (NAV)                (SYM)
          *
-         * The right pinky home key is "-" rather than ";": it types the Japanese
-         * long vowel mark, which turns up about as often as a letter. ";" drops a
-         * row (Shift still gives ":"), and "/" moves to the Sym layer.
+         * Twenty-six letters plus "," and "." fill 28 of the 30 alpha keys, so the
+         * right pinky column has exactly two slots for punctuation and there are
+         * three candidates. "-" holds one because it types the Japanese long vowel
+         * mark, which turns up about as often as a letter, and "/" the other. ";"
+         * is the one that loses; it and ":" sit on the Sym layer's own right pinky
+         * column, one hold away rather than behind a Shift as well.
          */
         base_layer {
             display-name = "Base";
             bindings = <
 &kp Q        &kp W          &kp E           &kp R        &kp T             &kp Y              &kp U               &kp I        &kp O            &kp P
 &kp A        &kp S          &kp D           &kp F        &kp G             &kp H              &kp J               &kp K        &kp L            &kp MINUS
-&kp Z        &kp X          &kp C           &kp V        &kp B             &kp N              &kp M               &kp COMMA    &kp DOT          &kp SEMI
+&kp Z        &kp X          &kp C           &kp V        &kp B             &kp N              &kp M               &kp COMMA    &kp DOT          &kp SLASH
 &kp LSHFT    &mt LALT TAB   &mo L_SYM       &kp SPACE    &kp LCTRL         &kp ENTER          &lt_tap L_NAV BSPC  &kp LGUI     &lt L_SYM ESC    &kp RSHFT
             >;
 
@@ -288,9 +291,9 @@
         sym_layer {
             display-name = "Sym";
             bindings = <
-&kp EXCL     &kp AT         &kp HASH        &kp DLLR     &kp PRCNT         &kp GRAVE          &kp N7              &kp N8       &kp N9           &kp ASTRK
-&kp LBRC     &kp RBRC       &kp LPAR        &kp RPAR     &kp SQT           &kp AMPS           &kp N4              &kp N5       &kp N6           &kp SLASH
-&kp LBKT     &kp RBKT       &kp LT          &kp GT       &kp UNDER         &kp PIPE           &kp N1              &kp N2       &kp N3           &kp PLUS
+&kp EXCL     &kp AT         &kp HASH        &kp DLLR     &kp PRCNT         &kp GRAVE          &kp N7              &kp N8       &kp N9           &kp COLON
+&kp LBRC     &kp RBRC       &kp LPAR        &kp RPAR     &kp SQT           &kp AMPS           &kp N4              &kp N5       &kp N6           &kp SEMI
+&kp LBKT     &kp RBKT       &kp LT          &kp GT       &kp ASTRK         &kp PIPE           &kp N1              &kp N2       &kp N3           &kp PLUS
 &trans       &trans         &trans          &trans       &trans            &kp N0             &mo L_MAC           &kp EQUAL    &trans           &trans
             >;
 

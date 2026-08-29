@@ -44,7 +44,7 @@ instead of typing one.
 
 | # | Name | Entered by | Contents |
 |---|------|-----------|----------|
-| 0 | Base | — | US alpha block, `-` on the right pinky home key |
+| 0 | Base | — | US alpha block, `-` and `/` on the right pinky column |
 | 1 | Mouse | trackball movement (`automouse-layer`) | click cluster on the right home row |
 | 2 | Nav | right thumb (Bspc) held | arrows on `hjkl`, page/line jumps, app shortcuts |
 | 3 | Sym | left middle **or** right ring held | numbers and symbols; also `scroll-layers` |
@@ -55,9 +55,12 @@ Layer 3 has two entry points, one per hand, so it shows different halves
 depending on which hand holds it — brackets from the right, numbers from the
 left.
 
-The right pinky home key is `-` rather than `;`, because it types the Japanese
-long vowel mark and turns up about as often as a letter. `;` drops a row (Shift
-still gives `:`) and `/` lives on the Sym layer.
+Twenty-six letters plus `,` and `.` fill 28 of the 30 alpha keys, so the right
+pinky column has exactly two slots for punctuation and three candidates. `-`
+takes one — it types the Japanese long vowel mark and turns up about as often as
+a letter — and `/` the other. `;` is the one that loses: it and `:` sit on the
+Sym layer's own right pinky column, so each is a hold plus a key rather than a
+hold plus Shift plus a key. `_` needs no key of its own, being Shift and `-`.
 
 The Nav arrows sit on `h j k l` — the keys and fingers Vim uses, h included as
 the index stretch. A thumb holds the layer, so the whole right hand stays free
