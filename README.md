@@ -101,8 +101,8 @@ rather than generous.
 
 The Nav arrows sit on `h j k l` — the keys and fingers Vim uses, h included as
 the index stretch. The **left** thumb holds the layer, so the arrows are a
-cross-hand reach rather than the same hand doing both. Shift and Cmd stay transparent on Nav so that shift-arrow and
-cmd-shift-arrow keep selecting text.
+cross-hand reach rather than the same hand doing both. Shift and Cmd stay
+transparent on Nav so that shift-arrow and cmd-shift-arrow keep selecting text.
 
 Space, Bspc and Enter all sit under a thumb, which is what Japanese input wants
 — space to convert, Enter to commit, Bspc to fix. Cmd took the bottom-row
@@ -118,6 +118,16 @@ that reaching Sym means holding Space for the full tapping term.
 Layers 1, 2 and 5 are also referenced by the trackball in
 `config/boards/shields/LiNEA40/LiNEA40_right.overlay`; keep the two in sync
 when renumbering.
+
+## Pinned dependencies
+
+`config/west.yml` pins every project to something immutable — a tag for ZMK and
+for the RGB widget, a commit for the PMW3610 driver, which publishes no tags.
+The driver was tracking `main`, and this keymap leans on details of its
+behaviour: `automouse-layer` only refreshes while the input mode is MOVE, and
+`scroll-layers` and `snipe-layers` are matched against the highest active layer
+only. Those are the sort of things that can change in a driver without anything
+changing here.
 
 ## Building
 

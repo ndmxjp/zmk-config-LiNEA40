@@ -13,15 +13,6 @@
         ;
 };
 
-/ {
-    trackball_listener {
-        compatible = "zmk,input-listener";
-        device = <&trackball>;
-
-    };
-};
-
-
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
@@ -64,6 +55,12 @@
     };
 };
 
+/* The node itself is declared disabled in LiNEA40.dtsi; this is the only place
+ * that enables it and points it at the sensor. There used to be a second
+ * declaration of the same node higher up in this file, setting the same two
+ * properties -- harmless, but it meant an edit up there would be silently
+ * overridden down here, and deleting this block would have left the listener
+ * disabled with nothing to say so. */
 &trackball_listener {
     status = "okay";
     device = <&trackball>;

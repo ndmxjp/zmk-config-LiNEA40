@@ -28,7 +28,6 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
 #include <input/processors.dtsi>
-#include <zephyr/dt-bindings/input/input-event-codes.h>
 
 /*
  * Layer names are prefixed so the preprocessor cannot rewrite the keymap node
@@ -54,10 +53,10 @@
  * nothing on Enter, which nobody holds.
  *
  * &lt_spc carries Space, and cannot use that trick: require-prior-idle-ms would
- * make Num unreachable in the middle of typing, which is exactly when a digit is
- * wanted. "tap-preferred" instead: no other keypress can turn the tap into a
+ * make Sym unreachable in the middle of typing, which is exactly when a symbol
+ * is wanted. "tap-preferred" instead: no other keypress can turn the tap into a
  * hold, only the tapping term can, so a space never goes missing however fast
- * the next letter follows. The cost is that reaching Num means holding Space for
+ * the next letter follows. The cost is that reaching Sym means holding Space for
  * the full term rather than pressing through it.
  */
 
@@ -77,27 +76,6 @@
     trigger-period-ms = <3>;
     time-to-max-speed-ms = <100>;
     acceleration-exponent = <0>;
-};
-
-/ {
-    input_processors {
-        zip_wheel_scaler: zip_wheel_scaler {
-            compatible = "zmk,input-processor-scaler";
-            #input-processor-cells = <2>;
-            type = <INPUT_EV_REL>;
-            codes = <INPUT_REL_WHEEL>;
-            track-remainders;
-        };
-    };
-};
-
-/* NAV held -> encoder scrolls three times as fast */
-
-&msc_input_listener {
-    fast_scroll {
-        layers = <L_NAV>;
-        input-processors = <&zip_wheel_scaler 3 1>;
-    };
 };
 
 /* NAV held -> trackball scrolls instead of moving the pointer. Nav is the left
@@ -154,9 +132,10 @@
      * A key that belongs to a combo has its press captured until the combo
      * resolves or times out, so no key used while typing belongs to one.
      * Space especially: it sat in a combo with Ctrl, its own neighbour under
-     * the left thumb, which both delayed every space and turned a slightly
-     * wide thumb press into ^Space. ^Space lives on the Nav and Mac layers
-     * instead.
+     * the left thumb at the time, which both delayed every space and turned a
+     * slightly wide thumb press into ^Space. Space has since moved to the right
+     * thumb, so ^Space is an ordinary two-thumb chord again; the Nav layer keeps
+     * a key for it as well.
      *
      * require-prior-idle-ms drops these combos from the candidate list
      * entirely while keys are still flowing, which keeps the capture off the
@@ -203,7 +182,7 @@
 
         /*
          * 40 keys. The bottom row carries five per half: the encoder occupies
-         * the position between Alt and Space on the left, and the trackball the
+         * the position between Alt and Enter on the left, and the trackball the
          * one between Space and Cmd on the right. Neither is in the layout.
          *
          *  Q      W      E      R      T                  Y      U      I      O      P
@@ -212,9 +191,9 @@
          *  Shift  Tab    Alt   (enc) Enter Ctrl   Bspc   Space  (ball)  Cmd    Esc    Shift
          *                            (NAV)                     (SYM)
          *
-         * Only the two thumb keys hold layers, which is what lets Num and Nav put
+         * Only the two thumb keys hold layers, which is what lets Nav and Sym put
          * a full ten-key row under the fingers: a thumb hold leaves all ten free,
-         * where the old left-middle Sym key blocked its own column.
+         * where a layer key held by a finger blocks its own column.
          *
          * Twenty-six letters plus "," and "." fill 28 of the 30 alpha keys, so the
          * right pinky column has exactly two slots for punctuation and there are
