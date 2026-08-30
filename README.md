@@ -26,11 +26,11 @@ position, and keys tapped once per conversion in Japanese do not.
 
 Bspc, Ctrl, Cmd, Tab, Alt, Esc and both Shifts are plain keys. Only two keys
 carry a layer, and both are the ones a thumb rests on: **Enter on the left
-holds Nav**, **Space on the right holds Num**, and holding both gives Mac.
+holds Nav**, **Space on the right holds Sym**, and holding both gives Mac.
 Whichever layer the left thumb holds is also the one that makes the trackball
 scroll, since that leaves the whole right hand free for the ball.
 
-That is what lets Num and Nav put a full ten-key row under the fingers — a
+That is what lets Sym and Nav put a full ten-key row under the fingers — a
 thumb hold leaves all ten free, where a finger-held layer key blocks its own
 column. It is also why `Tab`, `Alt` and `Esc` got plain keys back.
 
@@ -58,20 +58,25 @@ dedicated key on Nav stays as well.
 |---|------|-----------|----------|
 | 0 | Base | — | US alpha block, `-` and `/` on the right pinky column |
 | 1 | Mouse | trackball movement (`automouse-layer`) | click cluster on the right home row |
-| 2 | Nav | left thumb (Enter) held | symbol row, arrows on `hjkl`, page/line jumps; also `scroll-layers` |
-| 3 | Num | right thumb (Space) held | number row, symbols beneath it |
+| 2 | Nav | left thumb (Enter) held | number row, arrows on `hjkl`, page/line jumps; also `scroll-layers` |
+| 3 | Sym | right thumb (Space) held | symbol row, digits beneath it |
 | 4 | Mac | both thumbs held together | F-keys, Bluetooth, bootloader, occasional app shortcuts |
 | 5 | Snipe | left index held on the Mouse layer | trackball precision (`snipe-layers`) |
 
-The Num layer is a real number row. A thumb holds it, so the digits span both
-hands across the top, their shifted forms line up column for column directly
-beneath, and the leftovers sit on a third row:
+A thumb holds each of these layers, so each can carry a full ten-key row across
+the top. The **left** thumb (Enter) gives the digits, the **right** thumb (Space)
+the symbols above them, in the same columns either way:
 
 ```
-1  2  3  4  5      6  7  8  9  0
-!  @  #  $  %      ^  &  *  (  )
-`  =  \  [  ]      {  }  ;  :  '
+Nav, left thumb    1  2  3  4  5      6  7  8  9  0
+
+Sym, right thumb   !  @  #  $  %      ^  &  *  (  )
+                   1  2  3  4  5      6  7  8  9  0
+                   `  =  \  [  ]      {  }  ;  :  '
 ```
+
+Sym keeps a digit row of its own one row down, so a number is reachable from
+either thumb.
 
 Shift covers what is left: `~` from `` ` ``, `+` from `=`, `|` from `\`, `"`
 from `'`, and on the base layer `_` from `-` and `?` from `/`.
@@ -80,15 +85,12 @@ Twenty-six letters plus `,` and `.` fill 28 of the 30 alpha keys, so the right
 pinky column has exactly two slots for punctuation and three candidates. `-`
 takes one — it types the Japanese long vowel mark and turns up about as often as
 a letter — and `/` the other. `;` is the one that loses: it and `:` sit on the
-Num layer next to each other, so each is a thumb hold plus a key rather than a
+Sym layer next to each other, so each is a thumb hold plus a key rather than a
 hold plus Shift plus a key. `_` needs no key of its own, being Shift and `-`.
 
-Nav's top row is the shifted number row, in the same columns as Num's digits:
-hold the **right** thumb for a digit, the **left** thumb for the symbol above
-it. Num keeps its own copy one row down, so either thumb reaches them. What the
-symbol row displaced — screenshots, DevTools, force quit, browser history,
-same-app window switching, mute and play — moved to the Mac layer, whose left
-hand was empty.
+What that extra row displaced from Nav — screenshots, DevTools, force quit,
+browser history, same-app window switching, mute and play — moved to the Mac
+layer, whose left hand was empty.
 
 The Mouse layer is the one layer no key can dismiss: `pmw3610.c` deactivates it
 from a `k_timer` and nowhere else, so it stays on for
@@ -111,7 +113,7 @@ alternate hands.
 Space being a layer-tap is the one place the layout accepts real risk, and it
 uses `tap-preferred` for it: no other keypress can turn its tap into a hold, so
 a space never goes missing however fast the next letter follows. The trade is
-that reaching Num means holding Space for the full tapping term.
+that reaching Sym means holding Space for the full tapping term.
 
 Layers 1, 2 and 5 are also referenced by the trackball in
 `config/boards/shields/LiNEA40/LiNEA40_right.overlay`; keep the two in sync

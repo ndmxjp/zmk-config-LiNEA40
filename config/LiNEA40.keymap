@@ -9,7 +9,7 @@
  *          as Space, and both now sit under a thumb.
  *   Bspc, Ctrl, Cmd, Tab, Alt, Esc and both Shifts are plain &kp. The only two
  *   keys carrying a layer are the ones a thumb rests on: Enter on the left holds
- *   Nav, Space on the right holds Num, and holding both gives Mac. Whichever
+ *   Nav, Space on the right holds Sym, and holding both gives Mac. Whichever
  *   layer the LEFT thumb holds is also the one that makes the trackball scroll,
  *   since that leaves the whole right hand free for the ball.
  *   Bspc gave up its layer deliberately: it is the one key you genuinely want to
@@ -37,7 +37,7 @@
 #define L_BASE  0
 #define L_MOUSE 1   /* automouse-layer -- trackball moves */
 #define L_NAV   2   /* scroll-layers   -- trackball scrolls */
-#define L_NUM   3
+#define L_SYM   3
 #define L_MAC   4
 #define L_SNIPE 5   /* snipe-layers    -- trackball precision */
 
@@ -210,7 +210,7 @@
          *  A      S      D      F      G                  H      J      K      L      -
          *  Z      X      C      V      B                  N      M      ,      .      /
          *  Shift  Tab    Alt   (enc) Enter Ctrl   Bspc   Space  (ball)  Cmd    Esc    Shift
-         *                            (NAV)                     (NUM)
+         *                            (NAV)                     (SYM)
          *
          * Only the two thumb keys hold layers, which is what lets Num and Nav put
          * a full ten-key row under the fingers: a thumb hold leaves all ten free,
@@ -229,7 +229,7 @@
 &kp Q        &kp W          &kp E           &kp R        &kp T             &kp Y              &kp U               &kp I        &kp O            &kp P
 &kp A        &kp S          &kp D           &kp F        &kp G             &kp H              &kp J               &kp K        &kp L            &kp MINUS
 &kp Z        &kp X          &kp C           &kp V        &kp B             &kp N              &kp M               &kp COMMA    &kp DOT          &kp SLASH
-&kp LSHFT    &kp TAB        &kp LALT        &lt_tap L_NAV ENTER  &kp LCTRL           &kp BSPC           &lt_spc L_NUM SPACE  &kp LGUI     &kp ESC          &kp RSHFT
+&kp LSHFT    &kp TAB        &kp LALT        &lt_tap L_NAV ENTER  &kp LCTRL           &kp BSPC           &lt_spc L_SYM SPACE  &kp LGUI     &kp ESC          &kp RSHFT
             >;
 
             sensor-bindings = <&scrl_enc SCRL_DOWN SCRL_UP>;
@@ -260,16 +260,16 @@
          * Layer 2 -- held by the left thumb (Enter). A thumb hold leaves all ten
          * fingers free, so this layer too can carry a full row across the top.
          *
-         *  !        @       #       $        %          ^     &     *     (      )
+         *  1        2       3       4        5          6     7     8     9      0
          *  Ctrl-Spc Cmd-Spc Ctrl-Lt Ctrl-Up  Ctrl-Rt    Left  Down  Up    Right  Cmd-Bspc
          *  Cmd-1    Cmd-2   Cmd-3   Cmd-Alt-Lt Cmd-Alt-Rt Home PgDn  PgUp  End    Alt-Bspc
          *           Alt-Lt  Alt-Rt                                (MAC)   Del
          *                                                  (encoder: undo/redo)
          *
-         * The top row is the shifted number row, in the same columns as the
-         * digits on Num: hold the right thumb for a digit, the left thumb for the
-         * symbol above it. Num keeps its own copy one row down, so either thumb
-         * can reach them.
+         * The top row is the digits. Sym carries the shifted forms on its own top
+         * row in the same columns, so it is the left thumb for a digit and the
+         * right thumb for the symbol above it; Sym keeps a digit copy one row
+         * down, so either thumb reaches a number.
          *
          * The arrows sit on h j k l, on the keys and under the fingers Vim uses
          * -- including h as the index stretch. Line and page jumps sit below,
@@ -278,16 +278,16 @@
          * Shift and Cmd stay transparent here: shift-arrow and cmd-shift-arrow
          * have to keep selecting text.
          *
-         * What the symbol row displaced -- screenshots, DevTools, force quit,
+         * What the extra row displaced -- screenshots, DevTools, force quit,
          * browser history, same-app window switching, mute and play -- moved to
          * the Mac layer, whose left hand was empty.
          *
-         * Adding Num on top of this reaches the Mac layer -- both thumbs down.
+         * Adding Sym on top of this reaches the Mac layer -- both thumbs down.
          */
         nav_layer {
             display-name = "Nav";
             bindings = <
-&kp EXCL     &kp AT         &kp HASH        &kp DLLR     &kp PRCNT         &kp CARET          &kp AMPS            &kp ASTRK    &kp LPAR         &kp RPAR
+&kp N1       &kp N2         &kp N3          &kp N4               &kp N5              &kp N6             &kp N7               &kp N8       &kp N9           &kp N0
 &kp LC(SPACE)&kp LG(SPACE)  &kp LC(LEFT)    &kp LC(UP)   &kp LC(RIGHT)     &kp LEFT           &kp DOWN            &kp UP       &kp RIGHT        &kp LG(BSPC)
 &kp LG(N1)   &kp LG(N2)     &kp LG(N3)      &kp LG(LA(LEFT))&kp LG(LA(RIGHT))  &kp HOME           &kp PG_DN           &kp PG_UP    &kp END          &kp LA(BSPC)
 &trans       &kp LA(LEFT)   &kp LA(RIGHT)   &trans               &trans              &trans             &mo L_MAC            &trans       &kp DEL          &trans
@@ -298,23 +298,25 @@
 
         /*
          * Layer 3 -- held by the right thumb (Space), which leaves every finger
-         * free, so the digits sit in a real number row across both hands and
-         * their shifted forms line up directly underneath, column for column.
+         * free, so the symbols sit in a real shifted-number row across both hands,
+         * with the digits they belong to directly underneath, column for column.
          *
-         *  1  2  3  4  5      6  7  8  9  0
          *  !  @  #  $  %      ^  &  *  (  )
+         *  1  2  3  4  5      6  7  8  9  0
          *  `  =  \  [  ]      {  }  ;  :  '
          *
          * US layout, so Shift covers what is left over: ~ from `, + from =,
          * | from \, " from ', and on the base layer _ from - and ? from /.
+         * The digit row here is a second path to the numbers; the left thumb has
+         * them on its own top row.
          *
          * Adding Nav on top of this reaches the Mac layer.
          */
-        num_layer {
-            display-name = "Num";
+        sym_layer {
+            display-name = "Sym";
             bindings = <
-&kp N1       &kp N2         &kp N3          &kp N4       &kp N5            &kp N6             &kp N7              &kp N8       &kp N9           &kp N0
-&kp EXCL     &kp AT         &kp HASH        &kp DLLR     &kp PRCNT         &kp CARET          &kp AMPS            &kp ASTRK    &kp LPAR         &kp RPAR
+&kp EXCL     &kp AT         &kp HASH        &kp DLLR             &kp PRCNT           &kp CARET          &kp AMPS             &kp ASTRK    &kp LPAR         &kp RPAR
+&kp N1       &kp N2         &kp N3          &kp N4               &kp N5              &kp N6             &kp N7               &kp N8       &kp N9           &kp N0
 &kp GRAVE    &kp EQUAL      &kp BSLH        &kp LBKT     &kp RBKT          &kp LBRC           &kp RBRC            &kp SEMI     &kp COLON        &kp SQT
 &trans       &trans         &trans          &mo L_MAC            &trans              &trans             &trans               &trans       &trans           &trans
             >;
