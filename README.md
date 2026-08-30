@@ -21,12 +21,14 @@ Ctrl sits on the **left** thumb, because its common partners are right-hand
 letters: `^P`, `^N`, `^H`, `^K`. Cmd wants the mirror of that — `⌘C`, `⌘V`,
 `⌘X`, `⌘Z`, `⌘A`, `⌘S`, `⌘W`, `⌘Q`, `⌘T`, `⌘F` are all left-hand — so it sits
 on the **right** hand, on the bottom-row middle finger. It gave the right thumb
-up to Bspc and Enter: Cmd is held rather than tapped, so it tolerates the worse
-position, and those two — one per conversion in Japanese — do not.
+up to Bspc and Space: Cmd is held rather than tapped, so it tolerates the worse
+position, and keys tapped once per conversion in Japanese do not.
 
 Bspc, Ctrl, Cmd, Tab, Alt, Esc and both Shifts are plain keys. Only two keys
-carry a layer, and both are the ones a thumb rests on: **Space holds Num** and
-**Enter holds Nav**. Holding both gives Mac.
+carry a layer, and both are the ones a thumb rests on: **Enter on the left
+holds Nav**, **Space on the right holds Num**, and holding both gives Mac.
+Whichever layer the left thumb holds is also the one that makes the trackball
+scroll, since that leaves the whole right hand free for the ball.
 
 That is what lets Num and Nav put a full ten-key row under the fingers — a
 thumb hold leaves all ten free, where a finger-held layer key blocks its own
@@ -42,11 +44,13 @@ layer-plus-modifier pile — Spotlight, input-source switch, `⌘1`–`⌘3`,
 cursor chords (`^P` `^N` `^B` `^F` `^A` `^E` `^H` `^D` `^K`) stay real Ctrl
 chords, since they are used while typing.
 
-`^Space` cannot be pressed as a chord — Ctrl and Space share the left thumb —
-so it has its own key on the Nav layer. It was a combo on both thumb keys at
-first, which was a mistake: a key in a combo has its press captured, so every
-space was delayed, and a slightly wide thumb press switched the input source
-instead of typing one.
+`^Space` — the input-source switch — is a plain chord again now that Ctrl is on
+the left thumb and Space on the right: one thumb each. It spent a while unable to
+be pressed at all, because both shared the left thumb; the first attempt at
+working around that was a combo on the two left thumb keys, which was a mistake.
+A key in a combo has its press captured, so every space was delayed, and a
+slightly wide thumb press switched the input source instead of typing one. The
+dedicated key on Nav stays as well.
 
 ### Layers
 
@@ -54,8 +58,8 @@ instead of typing one.
 |---|------|-----------|----------|
 | 0 | Base | — | US alpha block, `-` and `/` on the right pinky column |
 | 1 | Mouse | trackball movement (`automouse-layer`) | click cluster on the right home row |
-| 2 | Nav | right thumb (Enter) held | symbol row, arrows on `hjkl`, page/line jumps |
-| 3 | Num | left thumb (Space) held | number row, symbols beneath it; also `scroll-layers` |
+| 2 | Nav | left thumb (Enter) held | symbol row, arrows on `hjkl`, page/line jumps; also `scroll-layers` |
+| 3 | Num | right thumb (Space) held | number row, symbols beneath it |
 | 4 | Mac | both thumbs held together | F-keys, Bluetooth, bootloader, occasional app shortcuts |
 | 5 | Snipe | left index held on the Mouse layer | trackball precision (`snipe-layers`) |
 
@@ -80,7 +84,7 @@ Num layer next to each other, so each is a thumb hold plus a key rather than a
 hold plus Shift plus a key. `_` needs no key of its own, being Shift and `-`.
 
 Nav's top row is the shifted number row, in the same columns as Num's digits:
-hold the **left** thumb for a digit, the **right** thumb for the symbol above
+hold the **right** thumb for a digit, the **left** thumb for the symbol above
 it. Num keeps its own copy one row down, so either thumb reaches them. What the
 symbol row displaced — screenshots, DevTools, force quit, browser history,
 same-app window switching, mute and play — moved to the Mac layer, whose left
@@ -94,21 +98,22 @@ or `l` comes out as a click, which is why the timeout is kept short (400ms)
 rather than generous.
 
 The Nav arrows sit on `h j k l` — the keys and fingers Vim uses, h included as
-the index stretch. A thumb holds the layer, so the whole right hand stays free
-for them. Shift and Cmd stay transparent on Nav so that shift-arrow and
+the index stretch. The **left** thumb holds the layer, so the arrows are a
+cross-hand reach rather than the same hand doing both. Shift and Cmd stay transparent on Nav so that shift-arrow and
 cmd-shift-arrow keep selecting text.
 
 Space, Bspc and Enter all sit under a thumb, which is what Japanese input wants
 — space to convert, Enter to commit, Bspc to fix. Cmd took the bottom-row
 position they needed: it is held rather than tapped, so it tolerates the worse
-spot.
+spot. Space sits on the right thumb and Enter on the left, so convert and commit
+alternate hands.
 
 Space being a layer-tap is the one place the layout accepts real risk, and it
 uses `tap-preferred` for it: no other keypress can turn its tap into a hold, so
 a space never goes missing however fast the next letter follows. The trade is
 that reaching Num means holding Space for the full tapping term.
 
-Layers 1, 3 and 5 are also referenced by the trackball in
+Layers 1, 2 and 5 are also referenced by the trackball in
 `config/boards/shields/LiNEA40/LiNEA40_right.overlay`; keep the two in sync
 when renumbering.
 

@@ -59,8 +59,8 @@
         irq-gpios = <&xiao_d 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; //MOT-D6
         // Layer numbers must match the #defines in config/LiNEA40.keymap
         automouse-layer = <1>;  // L_MOUSE
-        scroll-layers = <3>;    // L_SYM   -- held by the left index, right hand free for the ball
-        snipe-layers = <5>;     // L_SNIPE -- toggled from the MAC layer
+        scroll-layers = <2>;    // L_NAV   -- the left thumb holds it, so the right hand is free for the ball
+        snipe-layers = <5>;     // L_SNIPE -- held from the Mouse layer
     };
 };
 
