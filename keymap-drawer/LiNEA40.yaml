@@ -57,11 +57,11 @@ layers:
   - {t: ▽, type: trans}
   - {t: F, h: Snipe}
   - {t: ▽, type: trans}
-  - Click M
+  - {t: ▽, type: trans}
   - Click L
-  - Click R
-  - Back
-  - Fwd
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -221,11 +221,11 @@ layers:
   - {t: ▽, type: trans}
   - {type: held}
   - {t: ▽, type: trans}
-  - Click M
+  - {t: ▽, type: trans}
   - Click L
-  - Click R
-  - Back
-  - Fwd
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -249,11 +249,5 @@ layers:
 combos:
 - p: [7, 8]
   k: DEL
-- p: [16, 17]
-  k: Click M
 - p: [17, 18]
   k: Click R
-- p: [27, 28]
-  k: Back
-- p: [26, 27]
-  k: Fwd

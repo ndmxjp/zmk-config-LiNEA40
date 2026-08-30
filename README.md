@@ -57,7 +57,7 @@ dedicated key on Nav stays as well.
 | # | Name | Entered by | Contents |
 |---|------|-----------|----------|
 | 0 | Base | — | US alpha block, `-` and `/` on the right pinky column |
-| 1 | Mouse | trackball movement (`automouse-layer`) | click cluster on the right home row |
+| 1 | Mouse | trackball movement (`automouse-layer`) | left click on `J`; right click is the `K`+`L` combo |
 | 2 | Nav | left thumb (Enter) held | number row, arrows on `hjkl`, page/line jumps; also `scroll-layers` |
 | 3 | Sym | right thumb (Space) held | symbol row, digits beneath it |
 | 4 | Mac | both thumbs held together | F-keys, Bluetooth, bootloader, occasional app shortcuts |
@@ -94,10 +94,13 @@ layer, whose left hand was empty.
 
 The Mouse layer is the one layer no key can dismiss: `pmw3610.c` deactivates it
 from a `k_timer` and nowhere else, so it stays on for
-`CONFIG_PMW3610_AUTOMOUSE_TIMEOUT_MS` after the ball stops moving — and it puts
-mouse buttons on the right home row. That window is time in which `h`, `j`, `k`
-or `l` comes out as a click, which is why the timeout is kept short (400ms)
-rather than generous.
+`CONFIG_PMW3610_AUTOMOUSE_TIMEOUT_MS` after the ball stops moving. Every key
+bound on it is a letter stolen during that window, which is why it carries
+exactly one — left click on `J` — and why the timeout is kept short (400ms)
+rather than generous. It used to carry the full five-button cluster across the
+home row, and `k` and `l` kept coming out as a context menu and a browser Back.
+Right click is the `K`+`L` combo instead: each key alone types its letter, and
+pressing both together is a deliberate act the linger window cannot fake.
 
 The Nav arrows sit on `h j k l` — the keys and fingers Vim uses, h included as
 the index stretch. The **left** thumb holds the layer, so the arrows are a
