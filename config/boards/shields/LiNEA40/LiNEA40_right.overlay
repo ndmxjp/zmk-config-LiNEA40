@@ -13,15 +13,6 @@
         ;
 };
 
-/ {
-    trackball_listener {
-        compatible = "zmk,input-listener";
-        device = <&trackball>;
-
-    };
-};
-
-
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
@@ -57,13 +48,19 @@
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&xiao_d 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; //MOT-D6
-        automouse-layer = <1>;
-        snipe-layers = <2>;
-        scroll-layers = <5>;
-        //scroll-layers = <4 5 6>;
+        // Layer numbers must match the #defines in config/LiNEA40.keymap
+        automouse-layer = <1>;  // L_MOUSE
+        scroll-layers = <2>;    // L_NAV   -- the left thumb holds it, so the right hand is free for the ball
+        snipe-layers = <5>;     // L_SNIPE -- held from the Mouse layer
     };
 };
 
+/* The node itself is declared disabled in LiNEA40.dtsi; this is the only place
+ * that enables it and points it at the sensor. There used to be a second
+ * declaration of the same node higher up in this file, setting the same two
+ * properties -- harmless, but it meant an edit up there would be silently
+ * overridden down here, and deleting this block would have left the listener
+ * disabled with nothing to say so. */
 &trackball_listener {
     status = "okay";
     device = <&trackball>;

@@ -1,0 +1,119 @@
+draw_config:
+  dark_mode: auto
+  n_columns: 2
+  separate_combo_diagrams: true
+  combo_diagrams_scale: 3
+  append_colon_to_layer_header: false
+  footer_text: LiNEA40 -- macOS / US layout.  Generated from config/LiNEA40.keymap by keymap-drawer.
+parse_config:
+  modifier_fn_map:
+    left_ctrl: ⌃
+    right_ctrl: ⌃
+    left_shift: ⇧
+    right_shift: ⇧
+    left_alt: ⌥
+    right_alt: ⌥
+    left_gui: ⌘
+    right_gui: ⌘
+    keycode_combiner: '{mods}{key}'
+    mod_combiner: '{mod_1}{mod_2}'
+    special_combinations: {}
+  raw_binding_map:
+    '&mkp MB1': Click L
+    '&mkp MB2': Click R
+    '&mkp MB3': Click M
+    '&mkp MB4': Back
+    '&mkp MB5': Fwd
+    '&bootloader': Boot
+    '&studio_unlock': Studio
+  zmk_keycode_map:
+    EXCLAMATION: '!'
+    EXCL: '!'
+    AT_SIGN: '@'
+    AT: '@'
+    HASH: '#'
+    POUND: '#'
+    DOLLAR: $
+    DLLR: $
+    PERCENT: '%'
+    PRCNT: '%'
+    CARET: ^
+    AMPERSAND: '&'
+    AMPS: '&'
+    ASTERISK: '*'
+    ASTRK: '*'
+    STAR: '*'
+    LEFT_PARENTHESIS: (
+    LPAR: (
+    RIGHT_PARENTHESIS: )
+    RPAR: )
+    EQUAL: '='
+    PLUS: +
+    MINUS: '-'
+    UNDERSCORE: _
+    UNDER: _
+    SLASH: /
+    FSLH: /
+    QUESTION: '?'
+    QMARK: '?'
+    BACKSLASH: \
+    BSLH: \
+    PIPE: '|'
+    NON_US_BACKSLASH: \
+    PIPE2: '|'
+    NON_US_BSLH: '|'
+    SEMICOLON: ;
+    SEMI: ;
+    COLON: ':'
+    SINGLE_QUOTE: ''''
+    SQT: ''''
+    APOSTROPHE: ''''
+    APOS: ''''
+    DOUBLE_QUOTES: '"'
+    DQT: '"'
+    COMMA: ','
+    LESS_THAN: <
+    LT: <
+    PERIOD: .
+    DOT: .
+    GREATER_THAN: '>'
+    GT: '>'
+    LEFT_BRACKET: '['
+    LBKT: '['
+    LEFT_BRACE: '{'
+    LBRC: '{'
+    RIGHT_BRACKET: ']'
+    RBKT: ']'
+    RIGHT_BRACE: '}'
+    RBRC: '}'
+    GRAVE: '`'
+    TILDE: '~'
+    NON_US_HASH: '#'
+    NUHS: '#'
+    TILDE2: '~'
+    LEFT: ←
+    LEFT_ARROW: ←
+    RIGHT: →
+    RIGHT_ARROW: →
+    UP: ↑
+    UP_ARROW: ↑
+    DOWN: ↓
+    DOWN_ARROW: ↓
+    LGUI: CMD
+    LEFT_GUI: CMD
+    LEFT_COMMAND: CMD
+    RGUI: CMD
+    RIGHT_GUI: CMD
+    LCTRL: CTRL
+    LEFT_CONTROL: CTRL
+    RCTRL: CTRL
+    RIGHT_CONTROL: CTRL
+    LALT: OPT
+    LEFT_ALT: OPT
+    LEFT_OPTION: OPT
+    RALT: OPT
+    RIGHT_ALT: OPT
+    LSHFT: SHIFT
+    LEFT_SHIFT: SHIFT
+    RSHFT: SHIFT
+    RIGHT_SHIFT: SHIFT
