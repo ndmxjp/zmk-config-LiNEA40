@@ -140,8 +140,8 @@
      * require-prior-idle-ms drops these combos from the candidate list
      * entirely while keys are still flowing, which keeps the capture off the
      * letters they are built from -- "stdio" no longer risks a Delete. Rolling
-     * the ball is not a keycode event, so the click combos stay live whenever
-     * the hand is actually on the ball.
+     * the ball is not a keycode event, so the right-click combo stays live
+     * whenever the hand is actually on the ball.
      */
     combos {
         compatible = "zmk,combos";
@@ -152,27 +152,14 @@
             require-prior-idle-ms = <150>;
         };
 
-        mid_click {
-            bindings = <&mkp MB3>;
-            key-positions = <16 17>;
-            require-prior-idle-ms = <150>;
-        };
-
+        /* The one right-click there is. On the Mouse layer a single-key right
+         * click has to steal a letter for AUTOMOUSE_TIMEOUT_MS after every ball
+         * movement -- it lived on K, and K kept coming out as a context menu.
+         * A combo steals nothing: K and L alone type their letters, and pressing
+         * them together is a deliberate act a linger window cannot fake. */
         right_click {
             bindings = <&mkp MB2>;
             key-positions = <17 18>;
-            require-prior-idle-ms = <150>;
-        };
-
-        back_click {
-            bindings = <&mkp MB4>;
-            key-positions = <27 28>;
-            require-prior-idle-ms = <150>;
-        };
-
-        fwd_click {
-            bindings = <&mkp MB5>;
-            key-positions = <26 27>;
             require-prior-idle-ms = <150>;
         };
     };
@@ -216,20 +203,24 @@
 
         /*
          * Layer 1 -- entered automatically while the trackball is moving
-         * (automouse-layer in LiNEA40_right.overlay). Click cluster lands on
-         * the right home row, under the hand already on the ball.
+         * (automouse-layer in LiNEA40_right.overlay), and it lingers for
+         * AUTOMOUSE_TIMEOUT_MS after the ball stops. Every key bound here is a
+         * letter stolen during that window, so the layer carries exactly one:
+         * left click on J, under the index of the hand already on the ball.
+         * It used to carry the full five-button cluster across the home row,
+         * and K and L kept coming out as a context menu and a browser Back.
+         * Right click is the K+L combo, which steals nothing.
          *
          * Hold the left index (F) to slow the ball down; the left hand is idle
          * while the right one is on the ball. It is a hold-tap rather than a
-         * plain &mo because this layer stays active for AUTOMOUSE_TIMEOUT_MS
-         * after the ball stops, and a plain &mo would swallow the "f" of a word
-         * typed right after nudging the ball.
+         * plain &mo because of the same linger: a plain &mo would swallow the
+         * "f" of a word typed right after nudging the ball.
          */
         mouse_layer {
             display-name = "Mouse";
             bindings = <
 &trans     &trans         &trans          &trans           &trans                                  &trans      &trans           &trans              &trans      &trans
-&trans     &trans         &trans          &lt_tap L_SNIPE F    &trans                                  &mkp MB3    &mkp MB1         &mkp MB2            &mkp MB4    &mkp MB5
+&trans     &trans         &trans          &lt_tap L_SNIPE F    &trans                                  &trans      &mkp MB1         &trans              &trans      &trans
 &trans     &trans         &trans          &trans           &trans                                  &trans      &trans           &trans              &trans      &trans
 &trans     &trans         &trans          &trans           &trans          &trans  &trans          &trans              &trans           &trans
             >;
@@ -324,17 +315,18 @@
 
         /*
          * Layer 5 -- trackball precision mode (snipe-layers), held from the
-         * Mouse layer. It repeats that layer's click cluster rather than
-         * falling through to the letters underneath: the driver only activates
-         * the automouse layer while input_mode is MOVE (pmw3610.c), so in snipe
-         * mode layer 1 is gone and its clicks with it -- which would leave the
-         * ball able to aim precisely at something it cannot click.
+         * Mouse layer. It repeats that layer's left click rather than falling
+         * through to the letter underneath: the driver only activates the
+         * automouse layer while input_mode is MOVE (pmw3610.c), so in snipe
+         * mode layer 1 is gone and its click with it -- which would leave the
+         * ball able to aim precisely at something it cannot click. The K+L
+         * right-click combo is position-based and works here unaided.
          */
         snipe_layer {
             display-name = "Snipe";
             bindings = <
 &trans     &trans         &trans          &trans       &trans                                      &trans      &trans           &trans              &trans      &trans
-&trans     &trans         &trans          &trans       &trans                                      &mkp MB3    &mkp MB1         &mkp MB2            &mkp MB4    &mkp MB5
+&trans     &trans         &trans          &trans       &trans                                      &trans      &mkp MB1         &trans              &trans      &trans
 &trans     &trans         &trans          &trans       &trans                                      &trans      &trans           &trans              &trans      &trans
 &trans     &trans         &trans          &trans       &trans          &trans      &trans          &trans              &trans           &trans
             >;
